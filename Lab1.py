@@ -64,13 +64,12 @@ def plot_histogram(histogram, lamb):
     plt.title(f"Poisson Process (λ = {lamb})")
     plt.legend()
 
-    plt.savefig("poisson_plot.png")
+    # unique filename
+    plt.savefig(f"poisson_lambda_{lamb}.png")
 
-def main():
-    # Parâmetros
-    N = 500
-    lamb = 5
+    plt.clf()  # clear figure
 
+def event_gen(N, lamb):
     # Listas
     dt_list = []       # intervalos entre eventos
     arrival_times = [] # tempos acumulados
@@ -99,6 +98,14 @@ def main():
         print(f"{k}: {histogram[k]}")
 
     save_histogram(histogram)
+
+def main():
+    # Parâmetros
+    N = 500
+    lambdas = [0.5, 1.0, 5.0, 10.0, 50.0]
+
+    for lamb in lambdas:
+        event_gen(N, lamb)
 
 if __name__=="__main__":
     main()
