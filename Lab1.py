@@ -1,5 +1,6 @@
 # Etraf first project -- Poisson Proccess Simulation
 
+import os
 import random
 import math
 import matplotlib.pyplot as plt
@@ -32,7 +33,9 @@ def hist(arrival_times):
     return histogram
 
 # Function for saving results into an output file
-def save_histogram(histogram, filename="histogram.csv"):
+def save_histogram(histogram, lamb):
+    filename = f"data/histogram_lambda_{lamb}.csv"
+
     with open(filename, "w") as f:
         f.write("k,frequency\n")
         for k in sorted(histogram.keys()):
@@ -65,7 +68,7 @@ def plot_histogram(histogram, lamb):
     plt.legend()
 
     # unique filename
-    plt.savefig(f"poisson_lambda_{lamb}.png")
+    plt.savefig(f"plots/poisson_lambda_{lamb}.png")
 
     plt.clf()  # clear figure
 
@@ -92,14 +95,16 @@ def event_gen(N, lamb):
     histogram = hist(arrival_times)
 
     plot_histogram(histogram, lamb)
+    save_histogram(histogram, lamb)
 
     print("Histogram (k events per interval):")
     for k in sorted(histogram.keys()):
         print(f"{k}: {histogram[k]}")
 
-    save_histogram(histogram)
-
 def main():
+    os.makedirs("plots", exist_ok=True)
+    os.makedirs("data", exist_ok=True)
+
     # Parâmetros
     N = 500
     lambdas = [0.5, 1.0, 5.0, 10.0, 50.0]
