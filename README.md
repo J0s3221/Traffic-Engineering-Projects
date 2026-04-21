@@ -40,3 +40,11 @@ Typical observations:
 Mention:
 
 “A virtual environment was used to manage dependencies such as Matplotlib, ensuring reproducibility and avoiding conflicts with system-managed Python packages.”
+
+**You should observe:**
+
+- The combined process behaves like a Poisson with λ = sum
+- As N increases → better match with theory
+- For large λ (like 37):
+    - Distribution becomes more symmetric
+    - Approaches a Gaussian shape

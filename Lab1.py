@@ -101,6 +101,34 @@ def event_gen(N, lamb):
     for k in sorted(histogram.keys()):
         print(f"{k}: {histogram[k]}")
 
+def superposition_experiment(N):
+    lambdas = [2, 9, 11, 15]
+
+    # Generate 4 independent processes
+    processes = []
+    for lamb in lambdas:
+        arrivals = generate_arrivals(N, lamb)
+        processes.append(arrivals)
+
+    # Combine them
+    combined_arrivals = combine_processes(processes)
+
+    # Build histogram
+    histogram = hist(combined_arrivals)
+
+    # Total lambda
+    lamb_total = sum(lambdas)
+
+    # Plot
+    plot_histogram(histogram, lamb_total)
+
+    # Save CSV
+    save_histogram(histogram, lamb_total)
+
+    print(f"\nSuperposed process (λ = {lamb_total})")
+    for k in sorted(histogram.keys()):
+        print(f"{k}: {histogram[k]}")
+
 def main():
     os.makedirs("plots", exist_ok=True)
     os.makedirs("data", exist_ok=True)
@@ -109,8 +137,12 @@ def main():
     N = 500
     lambdas = [0.5, 1.0, 5.0, 10.0, 50.0]
 
+    # 2.2 part
     for lamb in lambdas:
         event_gen(N, lamb)
+
+    # 2.3 part
+    superposition_experiment(N)
 
 if __name__=="__main__":
     main()
