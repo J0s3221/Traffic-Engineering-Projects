@@ -1,5 +1,6 @@
 # Etraf first project -- Poisson Proccess Simulation
 
+import sys
 import os
 import random
 import math
@@ -101,6 +102,9 @@ def event_gen(N, lamb):
     for k in sorted(histogram.keys()):
         print(f"{k}: {histogram[k]}")
 
+
+# Function for step 2.3: generates four independent sequences with different lambdas
+#                        then it combines the four sequences into one and creates a histogram
 def superposition_experiment(N):
     lambdas = [2, 9, 11, 15]
 
@@ -111,7 +115,7 @@ def superposition_experiment(N):
         processes.append(arrivals)
 
     # Combine them
-    combined_arrivals = combine_processes(processes)
+    combined_arrivals = combine_process(processes)
 
     # Build histogram
     histogram = hist(combined_arrivals)
@@ -129,6 +133,29 @@ def superposition_experiment(N):
     for k in sorted(histogram.keys()):
         print(f"{k}: {histogram[k]}")
 
+#======= Helper functions for superposition ==========
+def generate_arrivals(N, lamb):
+    arrival_times = []
+    current_time = 0
+
+    for _ in range(N):
+        u = random.random()
+        dt = -math.log(1 - u) / lamb
+        current_time += dt
+        arrival_times.append(current_time)
+
+    return arrival_times
+
+def combine_process(processes):
+    combined = []
+
+    for process in processes:
+        combined.extend(process)
+
+    combined.sort()
+
+    return combined
+
 def main():
     os.makedirs("plots", exist_ok=True)
     os.makedirs("data", exist_ok=True)
@@ -137,12 +164,24 @@ def main():
     N = 500
     lambdas = [0.5, 1.0, 5.0, 10.0, 50.0]
 
-    # 2.2 part
-    for lamb in lambdas:
-        event_gen(N, lamb)
+    # Check argument
+    if len(sys.argv) < 2:
+        print("Usage: python Lab1.py [1|2]")
+        return
 
-    # 2.3 part
-    superposition_experiment(N)
+    arg = sys.argv[1]
+
+    if arg == "1":
+        # 2.2 part
+        for lamb in lambdas:
+            event_gen(N, lamb)
+
+    elif arg == "2":
+        # 2.3 part
+        superposition_experiment(N)
+
+    else:
+        print("\nInvalid option. Use 1 (Poisson) or 2 (Superposition).")
 
 if __name__=="__main__":
     main()
