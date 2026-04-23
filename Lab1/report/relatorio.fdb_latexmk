@@ -1,12 +1,12 @@
 # Fdb version 4
-["pdflatex"] 1776975614.83018 "/Users/tiagovideira/Library/CloudStorage/OneDrive-UniversidadedeLisboa/ETraf/Traffic-Engineering-Projects/Lab1/report/relatorio.tex" "relatorio.pdf" "relatorio" 1776975615.93805 0
+["pdflatex"] 1776976197.3851 "/Users/tiagovideira/Library/CloudStorage/OneDrive-UniversidadedeLisboa/ETraf/Traffic-Engineering-Projects/Lab1/report/relatorio.tex" "relatorio.pdf" "relatorio" 1776976198.52922 0
   "../plots/poisson_lambda_0.5.png" 1776974061.45646 27207 ba10375ed46785b5f33ae408d298dc45 ""
   "../plots/poisson_lambda_1.0.png" 1776974061.45678 25775 45c7d4c9fb492324fae8cdc30fed9531 ""
   "../plots/poisson_lambda_10.0.png" 1776974061.45714 32608 091338bdab06b96834ea22e4512d7387 ""
   "../plots/poisson_lambda_5.0.png" 1776974061.4576 34787 9704825069bb87431159c2c79e937a10 ""
   "../plots/poisson_lambda_50.0.png" 1776974061.45796 32682 b5e6772a9f443c7d91d2c1656f71b8f1 ""
   "../plots/superposition_lambda_37.png" 1776974061.45845 32323 2594e7327a62b4a8a97c04eb7f1cd277 ""
-  "/Users/tiagovideira/Library/CloudStorage/OneDrive-UniversidadedeLisboa/ETraf/Traffic-Engineering-Projects/Lab1/report/relatorio.tex" 1776975614.51668 11037 813487f3cae38092334d8770fa72bbf2 ""
+  "/Users/tiagovideira/Library/CloudStorage/OneDrive-UniversidadedeLisboa/ETraf/Traffic-Engineering-Projects/Lab1/report/relatorio.tex" 1776976197.19325 10682 9be98e1d499e73bbe7add94e2a455d18 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
@@ -141,9 +141,9 @@
   "/usr/local/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt" 1774974915 3636771 269a2c863261023e7a4a9a30b55d47d6 ""
   "/usr/local/texlive/2026/texmf.cnf" 1774209515 577 648cd9f92f9c0eac486f4c71c85cfbbe ""
   "Images/IST_A.png" 1774975135.54891 29407 1ad550cd4e61234069258d2834ec97ba ""
-  "relatorio.aux" 1776975615.86766 2889 924c4df5899ccdcbe5f66aa791ae81a9 "pdflatex"
-  "relatorio.out" 1776975615.86845 1770 b9f5527ebf9b068dcfb16b6208704fce "pdflatex"
-  "relatorio.tex" 1776975614.51668 11037 813487f3cae38092334d8770fa72bbf2 ""
+  "relatorio.aux" 1776976198.46093 2889 924c4df5899ccdcbe5f66aa791ae81a9 "pdflatex"
+  "relatorio.out" 1776976198.46164 1770 b9f5527ebf9b068dcfb16b6208704fce "pdflatex"
+  "relatorio.tex" 1776976197.19325 10682 9be98e1d499e73bbe7add94e2a455d18 ""
   (generated)
   "relatorio.aux"
   "relatorio.log"
