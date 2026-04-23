@@ -39,7 +39,7 @@ def save_histogram(histogram, lamb):
             f.write(f"{k},{histogram[k]}\n")
 
 # Function for plotting the Histograms generated
-def plot_histogram(histogram, lamb):
+def plot_histogram(histogram, lamb, name=None):
     total_intervals = sum(histogram.values())
 
     k_values = range(0, max(histogram.keys()) + 1)
@@ -61,7 +61,13 @@ def plot_histogram(histogram, lamb):
     plt.ylabel("Probability")
     plt.title(f"Poisson Process (λ={lamb})")
     plt.legend()
-    plt.savefig(f"plots/poisson_lambda_{lamb}.png")
+
+    if name is None:
+        filename = f"plots/poisson_lambda_{lamb}.png"
+    else:
+        filename = f"plots/{name}.png"
+
+    plt.savefig(filename)
     plt.clf()
 
 def event_gen(N, lamb):
@@ -96,28 +102,40 @@ def event_gen(N, lamb):
 
 # Function for step 2.3: generates four independent sequences with different lambdas
 #                        then it combines the four sequences into one and creates a histogram
-def superposition_experiment(N):
+def superposition_experiment():
     lambdas = [2, 9, 11, 15]
+    T = 10000
 
-    # Generate 4 independent processes
     processes = []
+
+    # gerar processos individuais
     for lamb in lambdas:
-        arrivals = generate_arrivals(N, lamb)
+        arrivals = generate_arrivals_until(T, lamb)
         processes.append(arrivals)
 
-    # Combine them
+        histogram = hist(arrivals)
+
+        plot_histogram(
+            histogram,
+            lamb,
+            name=f"individual_lambda_{lamb}"
+        )
+
+        save_histogram(histogram, lamb)
+
+    # combinar todos
     combined_arrivals = combine_process(processes)
 
-    # Build histogram
     histogram = hist(combined_arrivals)
 
-    # Total lambda
     lamb_total = sum(lambdas)
 
-    # Plot
-    plot_histogram(histogram, lamb_total)
+    plot_histogram(
+        histogram,
+        lamb_total,
+        name=f"superposition_lambda_{lamb_total}"
+    )
 
-    # Save CSV
     save_histogram(histogram, lamb_total)
 
     print(f"\nSuperposed process (λ = {lamb_total})")
@@ -133,6 +151,22 @@ def generate_arrivals(N, lamb):
         u = random.random()
         dt = -math.log(1 - u) / lamb
         current_time += dt
+        arrival_times.append(current_time)
+
+    return arrival_times
+
+def generate_arrivals_until(T, lamb):
+    arrival_times = []
+    current_time = 0.0
+
+    while True:
+        u = random.random()
+        dt = -math.log(1 - u) / lamb
+        current_time += dt
+
+        if current_time > T:
+            break
+
         arrival_times.append(current_time)
 
     return arrival_times
@@ -170,8 +204,7 @@ def main():
 
     elif arg == "2":
         # 2.3 part
-        N = 50000
-        superposition_experiment(N)
+        superposition_experiment()
 
     else:
         print("\nInvalid option. Use 1 (Poisson) or 2 (Superposition).")
