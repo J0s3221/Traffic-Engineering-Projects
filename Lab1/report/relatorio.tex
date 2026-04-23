@@ -30,7 +30,7 @@
     \fancyhf{}
     \fancyhead[L]{\footnotesize IST} % Left of Head note
     \fancyhead[R]{\footnotesize ULisboa} % Right of Head note
-    \fancyfoot[L]{\footnotesize RO} % Left of Footnote
+    \fancyfoot[L]{\footnotesize Traffic Engineering} % Left of Footnote
     \fancyfoot[C]{\thepage} % Center of Footnote
     \fancyfoot[R]{\footnotesize METI} % Right of Footnote
     \renewcommand{\footrulewidth}{0.4pt} % Footnote rule
@@ -77,10 +77,10 @@
         \includegraphics[scale = 0.25, left]{Images/IST_A.png} % IST logo
     \end{figure}
     \mbox{}\\[2.0cm]
-    \textsc{\Huge Optical Networks}\\[2.5cm]
+    \textsc{\Huge Traffic Engineering}\\[2.5cm]
     \textsc{\LARGE METI}\\[2.0cm]
     \HRule\\[0.4cm]
-    {\large \bf {Final Project} [\texttt{EN}]}\\[0.2cm]
+    {\large \bf {Lab 1 Report} [\texttt{EN}]}\\[0.2cm]
     \HRule\\[1.5cm]
 \end{center}
 
@@ -91,24 +91,24 @@
 \begin{center}
     \begin{minipage}{0.5\textwidth}
         \begin{flushleft}
-            Afonso Mendes (116024)\\
+            José Oliveira (103771)\\
             Tiago Videira (116069)\\
         \end{flushleft}
     \end{minipage}%
     \begin{minipage}{0.5\textwidth}
         \begin{flushright}
-            \href{mailto:afonsofmendes@tecnico.ulisboa.pt}{\texttt{afonsofmendes@tecnico.ulisboa.pt}}\\
+            \href{mailto:jose.novais.oliveira@tecnico.ulisboa.pt}{\texttt{jose.novais.oliveira@tecnico.ulisboa.pt}}\\
             \href{mailto:tiago.g.videira@tecnico.ulisboa.pt}{\texttt{tiago.g.videira@tecnico.ulisboa.pt}}\\
         \end{flushright}
     \end{minipage}
 \end{center}
     
 \begin{flushleft}
-    \large $\boxed{\text{\bf Group 5}}$\\[4.0cm]
+    \large $\boxed{\text{\bf Group X}}$\\[4.0cm]
 \end{flushleft}
     
 \begin{center}
-    \large \bf 2025/2026 -- \nth{2} Semester, P3
+    \large \bf 2025/2026 -- \nth{2} Semester, P4
 \end{center}
 
 \thispagestyle{empty}
@@ -117,22 +117,195 @@
 
 \newpage
 
-% ----------------------------------------------------------------------
-% Contents
-% ----------------------------------------------------------------------
-\tableofcontents 
+\section{Introduction}
+
+The objective of this laboratory assignment was to simulate and analyse the behaviour of Poisson arrival processes and compare the experimental results with their theoretical probability distributions.  
+
+The work developed so far includes:
+
+\begin{itemize}
+    \item Simulation of independent Poisson arrival processes;
+    \item Manual construction of histograms without using built-in histogram functions;
+    \item Comparison between experimental and theoretical Poisson distributions;
+    \item Analysis for different values of $\lambda$;
+    \item Superposition of multiple independent Poisson processes.
+\end{itemize}
+
+The implementation was developed in Python using random number generation, numerical functions and graphical visualization tools.
+
 
 \newpage
 
-% ----------------------------------------------------------------------
-% Body
-% ----------------------------------------------------------------------
+\section{Poisson Process Simulation}
 
-% ----------------------------------------------------------------------
-% Summary
-% ----------------------------------------------------------------------
-% ----------------------------------------------------------------------
-% Summary
-% ----------------------------------------------------------------------
+\subsection{Theoretical Background}
+
+A Poisson process with parameter $\lambda$ represents a random arrival process in which the number of events occurring in a unit time interval follows a Poisson distribution:
+
+\begin{equation}
+P(X=k)=\frac{\lambda^k e^{-\lambda}}{k!}
+\end{equation}
+
+where:
+
+\begin{itemize}
+    \item $k$ = number of events in one interval;
+    \item $\lambda$ = average arrival rate.
+\end{itemize}
+
+The time between two consecutive arrivals follows an exponential distribution:
+
+\begin{equation}
+f(t)=\lambda e^{-\lambda t}, \quad t \geq 0
+\end{equation}
+
+To generate exponentially distributed inter-arrival times, the inverse transform method was used:
+
+\begin{equation}
+\Delta t = \frac{-\ln(1-u)}{\lambda}
+\end{equation}
+
+where $u$ is uniformly distributed in $[0,1)$.
+
+\subsection{Implementation Method}
+
+For each experiment:
+
+\begin{enumerate}
+    \item Generate $N$ inter-arrival times $\Delta t$;
+    \item Compute cumulative arrival instants;
+    \item Divide time into unit intervals;
+    \item Count the number of arrivals in each interval;
+    \item Build the histogram manually;
+    \item Compare experimental probabilities with the theoretical Poisson law.
+\end{enumerate}
+
+The use of built-in histogram functions was intentionally avoided, as requested in the assignment statement.
+
+\newpage
+
+\subsection{Results for Different Values of $\lambda$}
+
+The simulator was executed for:
+
+\[
+\lambda = \{0.5,\;1,\;5,\;10,\;50\}
+\]
+
+For each value, the number of generated samples was increased proportionally in order to reduce statistical noise for large $\lambda$ values.
+
+\subsubsection*{$\lambda = 0.5$}
+
+For small values of $\lambda$, most intervals contain zero or one arrival. This behaviour matches the theoretical expectation, where $P(0)$ is dominant.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{../plots/poisson_lambda_0.5.png}
+    \caption{Experimental and theoretical distribution for $\lambda=0.5$.}
+\end{figure}
+
+The probability mass remains concentrated at low values of $k$, although intervals with two or more arrivals become more frequent.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{../plots/poisson_lambda_1.0.png}
+    \caption{Experimental and theoretical distribution for $\lambda=1$.}
+\end{figure}
+
+The distribution becomes wider and more symmetric around the mean value.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{../plots/poisson_lambda_5.0.png}
+    \caption{Experimental and theoretical distribution for $\lambda=5$.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{../plots/poisson_lambda_10.0.png}
+    \caption{Experimental and theoretical distribution for $\lambda=10$.}
+\end{figure}
+
+For very large arrival rates, the Poisson distribution becomes approximately bell-shaped due to convergence towards a normal distribution.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{../plots/poisson_lambda_50.0.png}
+    \caption{Experimental and theoretical distribution for $\lambda=50$.}
+\end{figure}
+
+\newpage
+
+\subsection{Discussion}
+
+The obtained results validate the simulator implementation. As the number of generated events increases, the experimental distribution converges to the theoretical model.
+
+It was also observed that:
+
+\begin{itemize}
+    \item Small $\lambda$ values produce sparse arrival patterns;
+    \item Larger $\lambda$ values generate more regular and concentrated distributions;
+    \item Increasing the sample size improves accuracy and reduces random fluctuations.
+\end{itemize}
+
+\section{Superposition of Poisson Processes}
+
+\subsection{Theoretical Background}
+
+A fundamental property of Poisson processes states that the superposition of independent Poisson processes is also a Poisson process whose rate is equal to the sum of the individual rates.
+
+Given four independent processes:
+
+\[
+\lambda_1=2,\quad
+\lambda_2=9,\quad
+\lambda_3=11,\quad
+\lambda_4=15
+\]
+
+the resulting combined process has parameter:
+
+\begin{equation}
+\lambda_{total}=2+9+11+15=37
+\end{equation}
+
+\subsection{Implementation}
+
+Four independent processes were generated over the same observation interval. Their arrival instants were merged and sorted chronologically, producing a single combined arrival stream.
+
+A histogram was then constructed using the same methodology described previously.
+
+\newpage
+
+\subsection{Results}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../plots/superposition_lambda_37.png}
+    \caption{Experimental and theoretical distribution for the superposed process ($\lambda=37$).}
+\end{figure}
+
+The experimental histogram is centered near the expected mean value and follows the theoretical Poisson distribution with good accuracy.
+
+\subsection{Discussion}
+
+This experiment confirms the closure property of Poisson processes under superposition. The sum of independent arrival streams preserves the Poisson nature of the process while increasing the global arrival rate.
+
+Such behaviour is highly relevant in communication networks, where traffic generated by multiple independent users can often be modelled as a single aggregate Poisson flow.
+
+\newpage
+
+\section{Conclusion}
+
+The objectives defined up to Section 2.3 of the assignment were successfully completed.
+
+The developed simulator correctly reproduces:
+
+\begin{itemize}
+    \item Individual Poisson arrival processes;
+    \item Theoretical event-count distributions;
+    \item Statistical convergence with larger sample sizes;
+    \item Superposition of independent Poisson processes.
+\end{itemize}
 
 \end{document}
