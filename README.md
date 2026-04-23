@@ -2,7 +2,7 @@
 
 This reporitory is for the three projects developed in the course of Traffic Engineering in ULisboa - Instituto Superior Tecnico 2025/2026
 
-### Report Notes:
+## Report Notes:
 
 We use `u = random.random()` to generate random uniform numbers between `[0,1)`
 
@@ -23,12 +23,12 @@ For a Poisson distribution with **λ = 5**:
 P(X=k)= (λ^k)x(e^−λ)/k!
 ```
 
-#### Key properties:
+### Key properties:
 - Mean ≈ λ = 5
 - Peak usually around k = 4 or 5
 - Right-skewed (longer tail to the right)
 
-#### Next step (for your report)
+### Next step (for your report)
 You’ll need to:
 - Repeat for λ = {0.5, 1, 5, 10, 50}
 - Comment:
@@ -48,3 +48,76 @@ Mention:
 - For large λ (like 37):
     - Distribution becomes more symmetric
     - Approaches a Gaussian shape
+
+### M/M/1 Queuing
+
+### What your loop is really doing
+
+Your loop is not “running one process”.
+
+It’s doing this:
+- Jump to next event in time
+- Process it instantly
+- Jump to next event
+- Repeat
+
+So time goes like:
+```
+t = 0.0  → arrival
+t = 0.3  → arrival
+t = 0.5  → departure
+t = 0.7  → arrival
+...
+```
+
+👉 You are **simulating a system evolving over time** — not executing tasks in parallel.
+
+### Why this works (and is standard)
+
+This is called Discrete Event Simulation (DES).
+
+It is used in:
+- network simulators
+- operating systems research
+- telecom systems
+- traffic systems
+
+And almost always:
+👉 **single-threaded**
+
+### How “concurrency” actually appears
+
+Let’s say:
+- A packet arrives at t = 1.0
+- Another arrives at t = 1.1
+- Service takes 2 seconds
+
+Even without threads:
+- First packet starts service
+- Second packet waits in queue
+
+Your simulation captures this because:
+- the server is marked busy
+- the queue stores waiting packets
+
+#### Testing (initial state)
+
+🔹 Case 1: Stable system
+```
+LAMBDA = 2
+MU = 3
+```
+
+👉 Expect:
+- queue stays small
+- server sometimes idle
+
+🔹 Case 2: Overloaded system
+```
+LAMBDA = 5
+MU = 3
+```
+
+👉 Expect:
+- queue grows continuously
+- server always busy
