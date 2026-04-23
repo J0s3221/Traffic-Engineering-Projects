@@ -8,28 +8,24 @@ import matplotlib.pyplot as plt
 
 # Funtion for counting events and build histograms out of the delta t generated in main
 def hist(arrival_times):
-    # Step 1: count events per unit interval
-    events_per_interval = {}
+    # último intervalo observado
+    max_interval = int(arrival_times[-1])
+
+    # contar eventos em TODOS os intervalos, incluindo vazios
+    events_per_interval = [0] * (max_interval + 1)
 
     for t in arrival_times:
-        interval = int(t)  # floor → which unit interval
+        interval = int(t)
+        events_per_interval[interval] += 1
 
-        if interval in events_per_interval:
-            events_per_interval[interval] += 1
-        else:
-            events_per_interval[interval] = 1
-
-    # Convert dict → list
-    counts = list(events_per_interval.values())
-
-    # Step 2: build histogram manually
+    # construir histograma manual
     histogram = {}
 
-    for k in counts:
-        if k in histogram:
-            histogram[k] += 1
+    for count in events_per_interval:
+        if count in histogram:
+            histogram[count] += 1
         else:
-            histogram[k] = 1
+            histogram[count] = 1
 
     return histogram
 
@@ -44,34 +40,29 @@ def save_histogram(histogram, lamb):
 
 # Function for plotting the Histograms generated
 def plot_histogram(histogram, lamb):
-    # Total number of intervals
     total_intervals = sum(histogram.values())
 
-    # Sort k values
-    k_values = sorted(histogram.keys())
+    k_values = range(0, max(histogram.keys()) + 1)
 
-    # Experimental probabilities
-    experimental_probs = [histogram[k] / total_intervals for k in k_values]
+    experimental_probs = [
+        histogram.get(k, 0) / total_intervals
+        for k in k_values
+    ]
 
-    # Theoretical Poisson probabilities
     theoretical_probs = [
         (lamb**k * math.exp(-lamb)) / math.factorial(k)
         for k in k_values
     ]
 
-    # Plot
-    plt.bar(k_values, experimental_probs, label="Experimental", alpha=0.6)
+    plt.bar(k_values, experimental_probs, alpha=0.6, label="Experimental")
     plt.plot(k_values, theoretical_probs, marker='o', label="Poisson (theoretical)")
 
-    plt.xlabel("k (events per interval)")
+    plt.xlabel("k")
     plt.ylabel("Probability")
-    plt.title(f"Poisson Process (λ = {lamb})")
+    plt.title(f"Poisson Process (λ={lamb})")
     plt.legend()
-
-    # unique filename
     plt.savefig(f"plots/poisson_lambda_{lamb}.png")
-
-    plt.clf()  # clear figure
+    plt.clf()
 
 def event_gen(N, lamb):
     # Listas
@@ -161,7 +152,7 @@ def main():
     os.makedirs("data", exist_ok=True)
 
     # Parâmetros
-    N = 500
+
     lambdas = [0.5, 1.0, 5.0, 10.0, 50.0]
 
     # Check argument
@@ -174,10 +165,12 @@ def main():
     if arg == "1":
         # 2.2 part
         for lamb in lambdas:
+            N = int(1000 * lamb)
             event_gen(N, lamb)
 
     elif arg == "2":
         # 2.3 part
+        N = 50000
         superposition_experiment(N)
 
     else:
