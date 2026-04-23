@@ -1,6 +1,7 @@
 # Etraf first project -- M/M/1 queue simulation
 
 import random
+import time
 
 # ---- Parameters ----
 LAMBDA = 2.0   # arrival rate
@@ -26,6 +27,7 @@ server_busy = False
 # ---- Main simulation loop ----
 while current_time < MAX_TIME:
 
+    time.sleep(0.2)
     # 1. Get next event
     event_list.sort()  # keep sorted by time
     event_time, event_type = event_list.pop(0)

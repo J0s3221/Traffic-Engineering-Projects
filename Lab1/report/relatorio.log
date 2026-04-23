@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.31)  23 APR 2026 21:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.31)  23 APR 2026 21:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -522,12 +522,12 @@ File: Images/IST_A.png Graphic file (type png)
 Package pdftex.def Info: Images/IST_A.png  used on input line 77.
 (pdftex.def)             Requested size: 177.42241pt x 98.52785pt.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 83.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 97.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 84.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 101.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 97.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 101.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [0
@@ -535,48 +535,48 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 {/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./Images/IST_A.png>] [1{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [2]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 187.
+(hyperref)                removing `math shift' on input line 192.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\lambda' on input line 187.
+(hyperref)                removing `\lambda' on input line 192.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 187.
+(hyperref)                removing `math shift' on input line 192.
 
 <../plots/poisson_lambda_0.5.png, id=93, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_0.5.png Graphic file (type png)
 <use ../plots/poisson_lambda_0.5.png>
-Package pdftex.def Info: ../plots/poisson_lambda_0.5.png  used on input line 203.
+Package pdftex.def Info: ../plots/poisson_lambda_0.5.png  used on input line 208.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
 <../plots/poisson_lambda_1.0.png, id=94, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_1.0.png Graphic file (type png)
 <use ../plots/poisson_lambda_1.0.png>
-Package pdftex.def Info: ../plots/poisson_lambda_1.0.png  used on input line 211.
+Package pdftex.def Info: ../plots/poisson_lambda_1.0.png  used on input line 216.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
 [3 <../plots/poisson_lambda_0.5.png>]
 <../plots/poisson_lambda_5.0.png, id=101, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_5.0.png Graphic file (type png)
 <use ../plots/poisson_lambda_5.0.png>
-Package pdftex.def Info: ../plots/poisson_lambda_5.0.png  used on input line 219.
+Package pdftex.def Info: ../plots/poisson_lambda_5.0.png  used on input line 224.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
 <../plots/poisson_lambda_10.0.png, id=102, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_10.0.png Graphic file (type png)
 <use ../plots/poisson_lambda_10.0.png>
-Package pdftex.def Info: ../plots/poisson_lambda_10.0.png  used on input line 225.
+Package pdftex.def Info: ../plots/poisson_lambda_10.0.png  used on input line 230.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
  [4 <../plots/poisson_lambda_1.0.png> <../plots/poisson_lambda_5.0.png>]
 <../plots/poisson_lambda_50.0.png, id=111, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_50.0.png Graphic file (type png)
 <use ../plots/poisson_lambda_50.0.png>
-Package pdftex.def Info: ../plots/poisson_lambda_50.0.png  used on input line 233.
+Package pdftex.def Info: ../plots/poisson_lambda_50.0.png  used on input line 238.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
  [5 <../plots/poisson_lambda_10.0.png> <../plots/poisson_lambda_50.0.png>] [6]
 <../plots/superposition_lambda_37.png, id=127, 462.528pt x 346.896pt>
 File: ../plots/superposition_lambda_37.png Graphic file (type png)
 <use ../plots/superposition_lambda_37.png>
-Package pdftex.def Info: ../plots/superposition_lambda_37.png  used on input line 284.
+Package pdftex.def Info: ../plots/superposition_lambda_37.png  used on input line 289.
 (pdftex.def)             Requested size: 386.95897pt x 290.23143pt.
  [7 <../plots/superposition_lambda_37.png>] [8] (./relatorio.aux)
  ***********
@@ -595,7 +595,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  86i,12n,117p,431b,1051s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on relatorio.pdf (9 pages, 303524 bytes).
+Output written on relatorio.pdf (9 pages, 304556 bytes).
 PDF statistics:
  203 PDF objects out of 1000 (max. 8388607)
  150 compressed objects within 2 object streams
