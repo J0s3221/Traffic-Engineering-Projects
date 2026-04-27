@@ -291,6 +291,8 @@ A histogram of the number of events per unit time interval was then constructed 
 
 \subsection{Results}
 
+In practice, a fixed number of events $N$ was generated for each process, which implicitly defines a random observation interval $T$. For sufficiently large $N$, this approach provides a good approximation of a Poisson process observed over a fixed time window.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../plots/superposition_lambda_37.png}
@@ -318,6 +320,8 @@ The developed simulator correctly reproduces:
     \item Theoretical event-count distributions;
     \item Statistical convergence with larger sample sizes;
     \item Superposition of independent Poisson processes.
-\end{itemize}
+\end{itemize}\
+
+The methodology developed in this work can be extended to more complex traffic models, enabling further exploration of stochastic processes in real-world systems.
 
 \end{document}
