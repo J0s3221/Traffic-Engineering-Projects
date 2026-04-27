@@ -269,11 +269,25 @@ the resulting combined process has parameter:
 
 \subsection{Implementation}
 
-Four independent processes were generated over the same observation interval. Their arrival instants were merged and sorted chronologically, producing a single combined arrival stream.
+Four independent Poisson processes were generated using exponential inter-arrival times with parameters $\lambda_1, \lambda_2, \lambda_3,$ and $\lambda_4$. 
 
-A histogram was then constructed using the same methodology described previously.
+Instead of fixing a predefined number of events for each process, all processes were simulated over a common observation interval $T$. This approach ensures that the resulting number of events in each process is consistent with the statistical properties of a Poisson process, where the number of arrivals in a time interval is itself a random variable.
 
-\newpage
+The choice of a fixed observation interval is essential for correctly demonstrating the superposition property. In a Poisson process, the expected number of arrivals in a time interval $T$ is given by:
+
+\[
+\mathbb{E}[N(T)] = \lambda T
+\]
+
+Thus, for each individual process, the number of generated events naturally depends on both the rate $\lambda$ and the observation interval $T$. Processes with higher $\lambda$ values produce, on average, more events within the same interval.
+
+After generating the four independent arrival sequences over the same interval $T$, their arrival instants were merged into a single sequence and sorted in chronological order. This produces a valid combined arrival process.
+
+A histogram of the number of events per unit time interval was then constructed using the same methodology described in Section 2.2. This histogram was compared against the theoretical Poisson distribution with parameter:
+
+\[
+\lambda_{total} = \sum_i \lambda_i
+\]
 
 \subsection{Results}
 
