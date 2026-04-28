@@ -121,3 +121,20 @@ MU = 3
 👉 Expect:
 - queue grows continuously
 - server always busy
+
+### What metrics should you add?
+
+For an M/M/1, the most important ones are:
+
+1. Average waiting time (Wq)
+
+Time a packet spends in the queue
+
+2. Average system time (W)
+
+Time in queue + service
+
+3. Average queue length (Lq)
+4. Server utilization (ρ̂)
+
+Fraction of time server is busy
