@@ -102,7 +102,7 @@
 \end{center}
     
 \begin{flushleft}
-    \large $\boxed{\text{\bf Group X}}$\\[4.0cm]
+    \large $\boxed{\text{\bf Group 5}}$\\[4.0cm]
 \end{flushleft}
     
 \begin{center}
@@ -115,7 +115,7 @@
 
 \newpage
 
-\section{Introduction}
+\section{Goals}
 
 The objective of this laboratory assignment was to simulate and analyse the behaviour of Poisson arrival processes and compare the experimental results with their theoretical probability distributions.  
 
@@ -323,5 +323,61 @@ The developed simulator correctly reproduces:
 \end{itemize}\
 
 The methodology developed in this work can be extended to more complex traffic models, enabling further exploration of stochastic processes in real-world systems.
+
+\newpage
+
+\section{M/M/1 Queue Simulation}
+
+\subsection{Theoretical Background}
+
+An M/M/1 queue models a system with:
+\begin{itemize}
+    \item Poisson arrivals with rate $\lambda$;
+    \item Exponentially distributed service times with rate $\mu$;
+    \item A single server;
+    \item FIFO (First-In-First-Out) discipline.
+\end{itemize}
+
+A key parameter of the system is the utilization factor:
+
+\begin{equation}
+\rho = \frac{\lambda}{\mu}
+\end{equation}
+
+The behaviour of the system depends on the value of $\rho$:
+
+\begin{itemize}
+    \item $\rho < 1$: stable system;
+    \item $\rho = 1$: critical regime;
+    \item $\rho > 1$: unstable system.
+\end{itemize}
+
+For a stable system ($\rho < 1$), the main theoretical results are:
+
+\begin{equation}
+L_q = \frac{\rho^2}{1 - \rho}
+\end{equation}
+
+\begin{equation}
+W_q = \frac{\rho}{\mu - \lambda}
+\end{equation}
+
+\begin{equation}
+W = \frac{1}{\mu - \lambda}
+\end{equation}
+
+\begin{equation}
+U = \rho
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $L_q$ = average queue length;
+    \item $W_q$ = average waiting time in queue;
+    \item $W$ = average time in system;
+    \item $U$ = server utilization.
+\end{itemize}
+
+
 
 \end{document}

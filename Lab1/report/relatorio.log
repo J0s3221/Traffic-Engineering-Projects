@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.4.24)  27 APR 2026 20:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.4.24)  30 APR 2026 17:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -509,7 +509,7 @@ Package hyperref Info: Link coloring ON on input line 67.
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 67.
-<Images/IST_A.png, id=54, 709.6914pt x 394.1124pt>
+<Images/IST_A.png, id=62, 709.6914pt x 394.1124pt>
 File: Images/IST_A.png Graphic file (type png)
 <use Images/IST_A.png>
 Package pdftex.def Info: Images/IST_A.png  used on input line 75.
@@ -538,60 +538,60 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 185.
 
-<../plots/poisson_lambda_0.5.png, id=93, 462.528pt x 346.896pt>
+<../plots/poisson_lambda_0.5.png, id=101, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_0.5.png Graphic file (type png)
 <use ../plots/poisson_lambda_0.5.png>
 Package pdftex.def Info: ../plots/poisson_lambda_0.5.png  used on input line 201.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
-<../plots/poisson_lambda_1.0.png, id=94, 462.528pt x 346.896pt>
+<../plots/poisson_lambda_1.0.png, id=102, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_1.0.png Graphic file (type png)
 <use ../plots/poisson_lambda_1.0.png>
 Package pdftex.def Info: ../plots/poisson_lambda_1.0.png  used on input line 209.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
 [3 <../plots/poisson_lambda_0.5.png>]
-<../plots/poisson_lambda_5.0.png, id=101, 462.528pt x 346.896pt>
+<../plots/poisson_lambda_5.0.png, id=109, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_5.0.png Graphic file (type png)
 <use ../plots/poisson_lambda_5.0.png>
 Package pdftex.def Info: ../plots/poisson_lambda_5.0.png  used on input line 217.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
-<../plots/poisson_lambda_10.0.png, id=102, 462.528pt x 346.896pt>
+<../plots/poisson_lambda_10.0.png, id=110, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_10.0.png Graphic file (type png)
 <use ../plots/poisson_lambda_10.0.png>
 Package pdftex.def Info: ../plots/poisson_lambda_10.0.png  used on input line 223.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
  [4 <../plots/poisson_lambda_1.0.png> <../plots/poisson_lambda_5.0.png>]
-<../plots/poisson_lambda_50.0.png, id=111, 462.528pt x 346.896pt>
+<../plots/poisson_lambda_50.0.png, id=119, 462.528pt x 346.896pt>
 File: ../plots/poisson_lambda_50.0.png Graphic file (type png)
 <use ../plots/poisson_lambda_50.0.png>
 Package pdftex.def Info: ../plots/poisson_lambda_50.0.png  used on input line 231.
 (pdftex.def)             Requested size: 362.77264pt x 272.09163pt.
  [5 <../plots/poisson_lambda_10.0.png> <../plots/poisson_lambda_50.0.png>] [6]
-<../plots/superposition_lambda_37.png, id=128, 462.528pt x 346.896pt>
+<../plots/superposition_lambda_37.png, id=136, 462.528pt x 346.896pt>
 File: ../plots/superposition_lambda_37.png Graphic file (type png)
 <use ../plots/superposition_lambda_37.png>
 Package pdftex.def Info: ../plots/superposition_lambda_37.png  used on input line 298.
 (pdftex.def)             Requested size: 386.95897pt x 290.23143pt.
- [7 <../plots/superposition_lambda_37.png>] [8] (./relatorio.aux)
+ [7 <../plots/superposition_lambda_37.png>] [8] [9] (./relatorio.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `relatorio.out' has not changed.
-(rerunfilecheck)             Checksum: B9F5527EBF9B068DCFB16B6208704FCE;1770.
+(rerunfilecheck)             Checksum: BB28B344D6AEB449F543183A81A6EEA9;2066.
  ) 
 Here is how much of TeX's memory you used:
- 18732 strings out of 474222
- 364193 string characters out of 5748733
+ 18742 strings out of 474222
+ 364309 string characters out of 5748733
  1932975 words of memory out of 5000000
- 40690 multiletter control sequences out of 15000+600000
+ 40692 multiletter control sequences out of 15000+600000
  568729 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  86i,13n,117p,450b,924s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on relatorio.pdf (9 pages, 319138 bytes).
+Output written on relatorio.pdf (10 pages, 322433 bytes).
 PDF statistics:
- 213 PDF objects out of 1000 (max. 8388607)
- 156 compressed objects within 2 object streams
- 39 named destinations out of 1000 (max. 500000)
- 142 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 231 PDF objects out of 1000 (max. 8388607)
+ 173 compressed objects within 2 object streams
+ 47 named destinations out of 1000 (max. 500000)
+ 158 words of extra memory for PDF output out of 10000 (max. 10000000)
 

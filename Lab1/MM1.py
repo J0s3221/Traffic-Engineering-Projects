@@ -4,9 +4,9 @@ import random
 import time
 
 # ---- Parameters ----
-LAMBDA = 8.0   # arrival rate
-MU = 4.0       # service rate
-MAX_TIME = 40
+LAMBDA = 4.0   # arrival rate
+MU = 8.0       # service rate
+MAX_TIME = 100000
 
 ARRIVAL = "arrival"
 DEPARTURE = "departure"
