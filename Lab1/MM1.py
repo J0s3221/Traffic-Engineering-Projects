@@ -1,12 +1,12 @@
 # Etraf first project -- M/M/1 queue simulation
 
 import random
-import time
+import matplotlib.pyplot as plt
 
 # ---- Parameters ----
-LAMBDA = 4.0   # arrival rate
-MU = 8.0       # service rate
-MAX_TIME = 100000
+LAMBDA = 49.0   # arrival rate
+MU = 50.0       # service rate
+MAX_TIME = 1000
 
 ARRIVAL = "arrival"
 DEPARTURE = "departure"
@@ -16,7 +16,7 @@ def exp_time(rate):
     return random.expovariate(rate)
 
 # ---- function that simulates the server ----
-def server():
+def server(MAX_DEPARTURES):
 
     # ---- System state ----
     current_time = 0.0
@@ -34,8 +34,13 @@ def server():
     total_system_time = 0.0
     num_departures = 0
 
+    time_points = []
+    queue_sizes = []
+
     # ---- Main simulation loop ----
-    while current_time < MAX_TIME:
+
+    while num_departures < MAX_DEPARTURES:
+    #while current_time < MAX_TIME:
 
         # 1. Get next event (earliest in time)
         event_list.sort()
@@ -91,8 +96,11 @@ def server():
             next_departure = current_time + service_time
             event_list.append((next_departure, DEPARTURE))
 
+        time_points.append(current_time)
+        queue_sizes.append(len(queue))
+
         # ---- Debug ----
-        print(f"time={current_time:.3f}, event={event_type}, queue={len(queue)}, busy={server_busy}")
+        #print(f"time={current_time:.3f}, event={event_type}, queue={len(queue)}, busy={server_busy}")
 
     # ---- Final metrics ----
     avg_queue_length = area_queue / current_time
@@ -100,17 +108,34 @@ def server():
     avg_waiting_time = total_waiting_time / num_departures if num_departures > 0 else 0
     avg_system_time = total_system_time / num_departures if num_departures > 0 else 0
 
+
+
+
+    plt.step(time_points, queue_sizes, where='post')
+    plt.xlabel("Time")
+    plt.ylabel("Queue Size")
+    plt.title(f"Queue Evolution (λ={LAMBDA}, μ={MU})")
+    plt.grid()
+
+    filename = f"queue_lambda_{LAMBDA}_mu_{MU}_{MAX_DEPARTURES}.png"
+    plt.savefig(filename)
+    plt.clf()
+
     return avg_queue_length, utilization, avg_waiting_time, avg_system_time
 
 
 def main():
-    avg_queue_length, utilization, avg_waiting_time, avg_system_time = server()
 
-    print("\n--- Results ---")
-    print(f"Average queue length (Lq): {avg_queue_length:.3f}")
-    print(f"Server utilization (rho): {utilization:.3f}")
-    print(f"Average waiting time (Wq): {avg_waiting_time:.3f}")
-    print(f"Average system time (W): {avg_system_time:.3f}")
+    for N in [1000, 10000, 100000]:
+        print(f"\nRunning simulation with {N} events...")
+
+        avg_queue_length, utilization, avg_waiting_time, avg_system_time = server(N)
+
+        print("\n--- Results ---")
+        print(f"Average queue length (Lq): {avg_queue_length:.3f}")
+        print(f"Server utilization (rho): {utilization:.3f}")
+        print(f"Average waiting time (Wq): {avg_waiting_time:.3f}")
+        print(f"Average system time (W): {avg_system_time:.3f}")
 
 
 if __name__ == "__main__":

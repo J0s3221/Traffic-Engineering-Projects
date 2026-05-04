@@ -113,24 +113,32 @@
 
 \setcounter{page}{0}
 
+\tableofcontents
 \newpage
 
-\section{Goals}
+\newpage
 
-The objective of this laboratory assignment was to simulate and analyse the behaviour of Poisson arrival processes and compare the experimental results with their theoretical probability distributions.  
+\section{Introduction}
 
-The work developed so far includes:
+The objective of this laboratory assignment is to simulate and analyse stochastic processes commonly used to model traffic in communication networks.
+
+The work developed in this assignment includes:
 
 \begin{itemize}
-    \item Simulation of independent Poisson arrival processes;
-    \item Manual construction of histograms without using built-in histogram functions;
-    \item Comparison between experimental and theoretical Poisson distributions;
-    \item Analysis for different values of $\lambda$;
-    \item Superposition of multiple independent Poisson processes.
+    \item Simulation of Poisson arrival processes and comparison with the theoretical distribution;
+    \item Analysis of the impact of different values of $\lambda$ on the behaviour of the process;
+    \item Superposition of multiple independent Poisson processes and validation of their statistical properties;
+    \item Simulation of an M/M/1 queue using a discrete-event approach;
+    \item Evaluation of key performance metrics, including:
+    \begin{itemize}
+        \item Average queue length;
+        \item Waiting time in the queue;
+        \item Total time in the system;
+        \item Server utilization;
+    \end{itemize}
 \end{itemize}
 
-The implementation was developed in Python using random number generation, numerical functions and graphical visualization tools.
-
+All simulations were implemented in Python using pseudo-random number generation and numerical methods. The results were analysed through graphical representations and comparison with theoretical models.
 
 \newpage
 
@@ -309,42 +317,19 @@ Such behaviour is highly relevant in communication networks, where traffic gener
 
 \newpage
 
-\section{Conclusion}
-
-The objectives defined up to Section 2.3 of the assignment were successfully completed.
-
-The developed simulator correctly reproduces:
-
-\begin{itemize}
-    \item Individual Poisson arrival processes;
-    \item Theoretical event-count distributions;
-    \item Statistical convergence with larger sample sizes;
-    \item Superposition of independent Poisson processes.
-\end{itemize}\
-
-The methodology developed in this work can be extended to more complex traffic models, enabling further exploration of stochastic processes in real-world systems.
-
-\newpage
-
 \section{M/M/1 Queue Simulation}
 
 \subsection{Theoretical Background}
 
-An M/M/1 queue models a system with:
-\begin{itemize}
-    \item Poisson arrivals with rate $\lambda$;
-    \item Exponentially distributed service times with rate $\mu$;
-    \item A single server;
-    \item FIFO (First-In-First-Out) discipline.
-\end{itemize}
+An M/M/1 queue models a system with Poisson arrivals and exponentially distributed service times, processed by a single server operating under a FIFO discipline.
 
-A key parameter of the system is the utilization factor:
+The key parameter of the system is the utilization factor:
 
 \begin{equation}
 \rho = \frac{\lambda}{\mu}
 \end{equation}
 
-The behaviour of the system depends on the value of $\rho$:
+The behaviour of the system depends on $\rho$:
 
 \begin{itemize}
     \item $\rho < 1$: stable system;
@@ -352,7 +337,7 @@ The behaviour of the system depends on the value of $\rho$:
     \item $\rho > 1$: unstable system.
 \end{itemize}
 
-For a stable system ($\rho < 1$), the main theoretical results are:
+For a stable system, the theoretical performance metrics are:
 
 \begin{equation}
 L_q = \frac{\rho^2}{1 - \rho}
@@ -370,14 +355,166 @@ W = \frac{1}{\mu - \lambda}
 U = \rho
 \end{equation}
 
-where:
+\subsection{Implementation Method}
+
+The M/M/1 queue was simulated using a discrete-event approach, where events correspond to packet arrivals and departures.
+
+Inter-arrival times were generated using an exponential distribution with parameter $\lambda$. This was implemented using the inverse transform method:
+
+\begin{equation}
+\Delta t = \frac{-\ln(1-u)}{\lambda}
+\end{equation}
+
+where $u$ is a uniformly distributed random variable in $[0,1)$.
+
+Similarly, service times were generated using an exponential distribution with parameter $\mu$:
+
+\begin{equation}
+S = \frac{-\ln(1-u)}{\mu}
+\end{equation}
+
+The system state was updated by processing events in chronological order. At each step, the simulation clock advanced to the next event time.
+
+The queue was implemented as a FIFO structure storing arrival instants, allowing the computation of waiting time:
+
+\begin{equation}
+W_q = t_{start} - t_{arrival}
+\end{equation}
+
+and total system time:
+
+\begin{equation}
+W = W_q + S
+\end{equation}
+
+Time-dependent performance metrics were computed using time averages. The average queue length was obtained by integrating the queue size over time:
+
+\begin{equation}
+L_q = \frac{1}{T} \int_0^T Q(t)\,dt
+\end{equation}
+
+Similarly, server utilization was computed as:
+
+\begin{equation}
+U = \frac{1}{T} \int_0^T B(t)\,dt
+\end{equation}
+
+where $Q(t)$ represents the queue size and $B(t)$ indicates whether the server is busy.
+
+\subsection{Queue Evolution Over Time}
+
+The evolution of the queue size was analysed for increasing numbers of simulated events.
+
+\begin{figure}[H]
+\centering
+
+\begin{subfigure}{0.32\textwidth}
+\includegraphics[width=\linewidth]{../queue_lambda_4.0_mu_8.0_1000.png}
+\caption{1000 events}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.32\textwidth}
+\includegraphics[width=\linewidth]{../queue_lambda_4.0_mu_8.0_10000.png}
+\caption{10000 events}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.32\textwidth}
+\includegraphics[width=\linewidth]{../queue_lambda_4.0_mu_8.0_100000.png}
+\caption{100000 events}
+\end{subfigure}
+
+\caption{Queue evolution over time for increasing number of simulated events ($\lambda=4$, $\mu=8$)}
+\end{figure}
+
+It can be observed that as the number of simulated events increases, the queue behaviour becomes more stable and starts to ressemble the expected theoretical behaviour of an M/M/1 queue with $\rho=0.5$.
+
+\subsection{Comparison with Theoretical Results}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccccc}
+\toprule
+Events & $L_q$ & $\rho$ & $W_q$ & $W$ \\
+\midrule
+1000   & 0.364 & 0.462 & 0.096 & 0.217 \\
+10000  & 0.540 & 0.507 & 0.133 & 0.259 \\
+100000 & 0.497 & 0.499 & 0.125 & 0.250 \\
+\midrule
+Theory & 0.500 & 0.500 & 0.125 & 0.250 \\
+\bottomrule
+\end{tabular}
+\caption{Simulation vs theoretical results for $\lambda=4$, $\mu=8$}
+\end{table}
+
+The results show a clear convergence towards theoretical values as the number of events increases.
+
+For a small number of events, the estimates present higher variability due to randomness. However, as the number of events increases, the simulation becomes more accurate and approaches the expected theoretical behaviour.
+
+\subsection{Queue Behaviour Under Different Regimes}
+
+In addition to validating the simulator, the behaviour of the system under different operating conditions was analysed.
+
+\begin{figure}[H]
+\centering
+
+\begin{subfigure}{0.32\textwidth}
+\includegraphics[width=\linewidth]{../queue_lambda_4.0_mu_8.0_10000.png}
+\caption{$\lambda < \mu$}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.32\textwidth}
+\includegraphics[width=\linewidth]{../queue_lambda_4.0_mu_4.0_10000.png}
+\caption{$\lambda = \mu$}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.32\textwidth}
+\includegraphics[width=\linewidth]{../queue_lambda_8.0_mu_4.0_10000.png}
+\caption{$\lambda > \mu$}
+\end{subfigure}
+
+\caption{Queue evolution for different operating regimes}
+\end{figure}
+
+The behaviour of the queue depends strongly on the relationship between the arrival rate $\lambda$ and the service rate $\mu$.
+
+For $\lambda < \mu$, the queue remains stable and fluctuates around a finite value.
+
+For $\lambda = \mu$, the system operates at the stability limit and the queue exhibits a growing trend.
+
+For $\lambda > \mu$, the queue grows rapidly over time, indicating an unstable system.
+
+\subsection{Discussion}
+
+The simulation results confirm the theoretical behaviour of M/M/1 queueing systems.
+
+In the stable regime, the system reaches equilibrium and the measured metrics closely match theoretical predictions.
+
+As the system approaches the critical regime, performance degrades significantly, with increasing queue lengths and delays.
+
+In the unstable regime, the divergence of the queue highlights the importance of maintaining a service rate higher than the arrival rate in practical systems.
+
+These results demonstrate the fundamental relationship between system load and performance in queueing systems.
+
+\newpage
+
+\section{Conclusion}
+
+This laboratory work successfully explored the properties of Poisson arrival processes and their application to queueing systems.
+
+The simulation of Poisson processes demonstrated a strong agreement between experimental results and the theoretical distribution. The impact of the parameter $\lambda$ on the shape and dispersion of the distribution was clearly observed.
+
+The superposition experiment confirmed that the aggregation of independent Poisson processes results in another Poisson process, with rate equal to the sum of the individual rates.
+
+The M/M/1 queue simulation further extended this analysis by introducing service dynamics. The results showed that system performance strongly depends on the relationship between arrival and service rates.
+
+In particular:
 \begin{itemize}
-    \item $L_q$ = average queue length;
-    \item $W_q$ = average waiting time in queue;
-    \item $W$ = average time in system;
-    \item $U$ = server utilization.
+    \item For $\lambda < \mu$, the system remains stable and performance metrics converge to theoretical values;
+    \item For $\lambda = \mu$, the system operates at the stability limit;
+    \item For $\lambda > \mu$, the system becomes unstable and the queue grows without bound.
 \end{itemize}
 
+Overall, the results highlight the importance of maintaining adequate service capacity in systems subject to stochastic traffic, such as communication networks.
 
 
 \end{document}
