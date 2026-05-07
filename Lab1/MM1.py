@@ -4,8 +4,8 @@ import random
 import matplotlib.pyplot as plt
 
 # ---- Parameters ----
-LAMBDA = 49.0   # arrival rate
-MU = 50.0       # service rate
+LAMBDA = 2.0   # arrival rate
+MU = 4.0       # service rate
 MAX_TIME = 1000
 
 ARRIVAL = "arrival"

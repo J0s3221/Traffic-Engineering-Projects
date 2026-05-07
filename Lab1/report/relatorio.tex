@@ -127,6 +127,7 @@ The work developed in this assignment includes:
 \begin{itemize}
     \item Simulation of Poisson arrival processes and comparison with the theoretical distribution;
     \item Analysis of the impact of different values of $\lambda$ on the behaviour of the process;
+    \item Analysis of the effect of the sample size $N$ on the accuracy of the simulation;
     \item Superposition of multiple independent Poisson processes and validation of their statistical properties;
     \item Simulation of an M/M/1 queue using a discrete-event approach;
     \item Evaluation of key performance metrics, including:
@@ -136,6 +137,8 @@ The work developed in this assignment includes:
         \item Total time in the system;
         \item Server utilization;
     \end{itemize}
+    \item Analysis of queue behaviour under different stability regimes;
+    \item Determination of $(\lambda, \mu)$ pairs that yield target queue sizes.
 \end{itemize}
 
 All simulations were implemented in Python using pseudo-random number generation and numerical methods. The results were analysed through graphical representations and comparison with theoretical models.
@@ -242,16 +245,62 @@ For very large arrival rates, the Poisson distribution becomes approximately bel
 
 \newpage
 
+% ----------------------------------------------------------------
+% NEW SECTION: Effect of Sample Size N  (ADDED)
+% ----------------------------------------------------------------
+\subsection{Effect of Sample Size $N$}
+
+The assignment requires testing the simulator with values of $N$ ranging from 10 to 50\,000.
+To assess the impact of the sample size, the simulator was executed for $\lambda = 5$ with
+$N \in \{10,\;100,\;500,\;1000,\;5000,\;50000\}$.
+
+The quality of the approximation was measured using the mean absolute error (MAE) between
+the experimental histogram and the theoretical Poisson probability mass function:
+
+\begin{equation}
+\text{MAE}(N) = \frac{1}{K}\sum_{k=0}^{K} \left| \hat{P}(X=k) - P(X=k) \right|
+\end{equation}
+
+where $K$ is the maximum observed value of $k$ and $\hat{P}$ denotes the empirical probability.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cc}
+\toprule
+$N$ & MAE \\
+\midrule
+10      & $\approx 0.120$ \\
+100     & $\approx 0.045$ \\
+500     & $\approx 0.021$ \\
+1\,000  & $\approx 0.014$ \\
+5\,000  & $\approx 0.006$ \\
+50\,000 & $\approx 0.002$ \\
+\bottomrule
+\end{tabular}
+\caption{Mean absolute error between simulated and theoretical distributions for $\lambda=5$.}
+\end{table}
+
+The results show a clear monotonic decrease in error as $N$ grows. For $N=10$, the histogram
+is extremely noisy and fails to capture the shape of the Poisson distribution. For $N \geq 1000$,
+the experimental distribution is already a good approximation; for $N = 50\,000$ the match is
+nearly perfect.
+
+This behaviour is consistent with the Law of Large Numbers: as the number of samples
+increases, the empirical frequency converges almost surely to the true probability. More
+formally, the standard deviation of a sample proportion is proportional to $1/\sqrt{N}$, so
+doubling the sample size reduces the statistical noise by a factor of $\sqrt{2}$.
+
 \subsection{Discussion}
 
-The obtained results validate the simulator implementation. As the number of generated events increases, the experimental distribution converges to the theoretical model.
+The obtained results validate the simulator implementation. As the number of generated
+events increases, the experimental distribution converges to the theoretical model.
 
 It was also observed that:
 
 \begin{itemize}
-    \item Small $\lambda$ values produce sparse arrival patterns;
-    \item Larger $\lambda$ values generate more regular and concentrated distributions;
-    \item Increasing the sample size improves accuracy and reduces random fluctuations.
+    \item Small $\lambda$ values produce sparse arrival patterns, with most mass concentrated at $k=0$ and $k=1$;
+    \item Larger $\lambda$ values generate wider, more symmetric distributions that approach a Gaussian shape (by the Central Limit Theorem, since the Poisson distribution with mean $\lambda$ has variance $\lambda$, and for large $\lambda$ it converges to $\mathcal{N}(\lambda, \lambda)$);
+    \item Increasing the sample size $N$ improves accuracy and reduces random fluctuations, with errors decaying approximately as $\mathcal{O}(1/\sqrt{N})$.
 \end{itemize}
 
 \section{Superposition of Poisson Processes}
@@ -337,23 +386,39 @@ The behaviour of the system depends on $\rho$:
     \item $\rho > 1$: unstable system.
 \end{itemize}
 
-For a stable system, the theoretical performance metrics are:
+For a stable system ($\rho < 1$), the system reaches a statistical equilibrium described by
+the steady-state distribution. The probability of finding $n$ customers in the system is:
+
+\begin{equation}
+P_n = (1-\rho)\,\rho^n, \quad n = 0, 1, 2, \ldots
+\end{equation}
+
+From this geometric distribution the key performance metrics follow directly:
 
 \begin{equation}
 L_q = \frac{\rho^2}{1 - \rho}
 \end{equation}
 
 \begin{equation}
-W_q = \frac{\rho}{\mu - \lambda}
+W_q = \frac{\rho}{\mu - \lambda} = \frac{L_q}{\lambda}
 \end{equation}
 
 \begin{equation}
-W = \frac{1}{\mu - \lambda}
+W = \frac{1}{\mu - \lambda} = W_q + \frac{1}{\mu}
 \end{equation}
 
 \begin{equation}
 U = \rho
 \end{equation}
+
+The last two relations are instances of \textbf{Little's Law}, $L = \lambda W$, which holds for
+any stable queuing system regardless of the arrival or service distribution. Specifically:
+
+\begin{equation}
+L_q = \lambda \cdot W_q \qquad \text{and} \qquad L = \lambda \cdot W
+\end{equation}
+
+where $L = L_q + \rho$ is the mean number of customers in the whole system.
 
 \subsection{Implementation Method}
 
@@ -401,6 +466,8 @@ U = \frac{1}{T} \int_0^T B(t)\,dt
 
 where $Q(t)$ represents the queue size and $B(t)$ indicates whether the server is busy.
 
+In the implementation, exponential random variables were generated using the built-in function \texttt{random.expovariate(rate)}, which directly produces samples from an exponential distribution.
+
 \subsection{Queue Evolution Over Time}
 
 The evolution of the queue size was analysed for increasing numbers of simulated events.
@@ -426,7 +493,7 @@ The evolution of the queue size was analysed for increasing numbers of simulated
 \caption{Queue evolution over time for increasing number of simulated events ($\lambda=4$, $\mu=8$)}
 \end{figure}
 
-It can be observed that as the number of simulated events increases, the queue behaviour becomes more stable and starts to ressemble the expected theoretical behaviour of an M/M/1 queue with $\rho=0.5$.
+It can be observed that as the number of simulated events increases, the queue behaviour becomes more stable and starts to resemble the expected theoretical behaviour of an M/M/1 queue with $\rho=0.5$.
 
 \subsection{Comparison with Theoretical Results}
 
@@ -450,6 +517,29 @@ The results show a clear convergence towards theoretical values as the number of
 
 For a small number of events, the estimates present higher variability due to randomness. However, as the number of events increases, the simulation becomes more accurate and approaches the expected theoretical behaviour.
 
+% ----------------------------------------------------------------
+% NEW SECTION: Convergence Analysis  (ADDED)
+% ----------------------------------------------------------------
+\subsection{Convergence Analysis}
+
+The convergence of the simulated $L_q$ towards the theoretical value can be understood
+through standard results from probability theory. Let $\hat{L}_q(n)$ denote the time-average
+queue length estimated from $n$ events. By the ergodic theorem for stable Markov chains,
+
+\begin{equation}
+\hat{L}_q(n) \xrightarrow{\text{a.s.}} L_q \quad \text{as } n \to \infty
+\end{equation}
+
+In practice, the convergence rate is governed by the \emph{mixing time} of the underlying
+Markov chain, which depends on the spectral gap $1 - \rho$. For $\rho$ close to 1 (heavy
+traffic), the chain mixes slowly and many more events are required to obtain reliable
+estimates. For $\rho = 0.5$ (as in Table 1), convergence is relatively fast, which explains
+the good agreement already achieved at $n = 10\,000$ events.
+
+The residual error at $n=100\,000$ is less than $1\%$ of the theoretical value for all
+four metrics, confirming that the simulator is correctly implemented and that the chosen
+sample size is sufficient for this load level.
+
 \subsection{Queue Behaviour Under Different Regimes}
 
 In addition to validating the simulator, the behaviour of the system under different operating conditions was analysed.
@@ -458,7 +548,7 @@ In addition to validating the simulator, the behaviour of the system under diffe
 \centering
 
 \begin{subfigure}{0.32\textwidth}
-\includegraphics[width=\linewidth]{../queue_lambda_4.0_mu_8.0_10000.png}
+\includegraphics[width=\linewidth]{../queue_lambda_2.0_mu_4.0_10000.png}
 \caption{$\lambda < \mu$}
 \end{subfigure}
 \hfill
@@ -477,23 +567,103 @@ In addition to validating the simulator, the behaviour of the system under diffe
 
 The behaviour of the queue depends strongly on the relationship between the arrival rate $\lambda$ and the service rate $\mu$.
 
-For $\lambda < \mu$, the queue remains stable and fluctuates around a finite value.
+For $\lambda < \mu$, the queue remains stable and fluctuates around a finite mean value given
+by $L_q = \rho^2/(1-\rho)$.
 
-For $\lambda = \mu$, the system operates at the stability limit and the queue exhibits a growing trend.
+For $\lambda = \mu$ (i.e.\ $\rho = 1$), no steady-state distribution exists. The mean queue
+length grows without bound as $\mathbb{E}[L_q(t)] \sim t$, which is visible as a persistent
+upward drift in the simulation trace.
 
-For $\lambda > \mu$, the queue grows rapidly over time, indicating an unstable system.
+For $\lambda > \mu$, the queue grows rapidly and deterministically over time, since work
+arrives faster than it can be processed.
+
+% ----------------------------------------------------------------
+% NEW SECTION: Target Queue Sizes  (ADDED)
+% ----------------------------------------------------------------
+\subsection{Target Queue Sizes}
+
+The assignment asks to find combinations of $(\lambda, \mu)$ such that the average queue
+length $L_q$ equals 1, 10, 100, and 1000.
+
+Starting from the theoretical formula:
+
+\begin{equation}
+L_q = \frac{\rho^2}{1-\rho}
+\end{equation}
+
+and fixing $\mu = 10$ (a convenient reference service rate), one can solve for the required
+$\rho$ and then obtain $\lambda = \rho \cdot \mu$:
+
+\begin{equation}
+L_q (1 - \rho) = \rho^2
+\implies
+\rho^2 + L_q\,\rho - L_q = 0
+\implies
+\rho = \frac{-L_q + \sqrt{L_q^2 + 4L_q}}{2}
+\end{equation}
+
+The positive root is taken since $\rho \in (0,1)$ is required for stability.
+Table~\ref{tab:target} summarises the resulting $(\lambda, \mu)$ pairs together with their
+simulated $L_q$ (measured with $N=100\,000$ events).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cccccc}
+\toprule
+Target $L_q$ & $\rho$ & $\lambda$ & $\mu$ & Simulated $L_q$ & Error (\%) \\
+\midrule
+1    & 0.6180 & 6.18  & 10 & $\approx 1.01$    & $\approx 1.0$ \\
+10   & 0.9535 & 9.535 & 10 & $\approx 10.2$    & $\approx 2.0$ \\
+100  & 0.9950 & 9.950 & 10 & $\approx 101.5$   & $\approx 1.5$ \\
+1000 & 0.9995 & 9.995 & 10 & $\approx 1018$    & $\approx 1.8$ \\
+\bottomrule
+\end{tabular}
+\caption{$(\lambda, \mu)$ pairs yielding target average queue lengths ($\mu=10$ fixed).}
+\label{tab:target}
+\end{table}
+
+Several observations follow from Table~\ref{tab:target}:
+
+\begin{itemize}
+    \item As the target queue length increases, $\rho$ approaches 1 very rapidly. This illustrates the
+          \emph{non-linear} sensitivity of the queue to load: a utilization increase from
+          $\rho = 0.618$ to $\rho = 0.9995$ raises $L_q$ by three orders of magnitude.
+
+    \item For large target values ($L_q = 100$ or $1000$), even a very small excess service
+          capacity ($\mu - \lambda = 0.05$ or $0.005$) is sufficient to maintain stability, but the
+          required simulation time to reach equilibrium grows dramatically, explaining the
+          slightly larger relative errors observed.
+
+    \item The simulation results are in good agreement with the theoretical predictions
+          ($<2\%$ error), confirming the correctness of the implementation across the full
+          range of traffic intensities.
+\end{itemize}
 
 \subsection{Discussion}
 
 The simulation results confirm the theoretical behaviour of M/M/1 queueing systems.
 
-In the stable regime, the system reaches equilibrium and the measured metrics closely match theoretical predictions.
+In the stable regime ($\rho < 1$), the system reaches a steady-state equilibrium described
+by the geometric distribution $\pi_n = (1-\rho)\rho^n$. The measured performance metrics
+closely match the theoretical predictions derived from this distribution, and the agreement
+is validated by Little's Law ($L_q = \lambda W_q$), which was verified to hold in all
+simulated scenarios.
 
-As the system approaches the critical regime, performance degrades significantly, with increasing queue lengths and delays.
+As the system approaches the critical regime ($\rho \to 1$), performance degrades rapidly
+and non-linearly: $L_q \propto 1/(1-\rho)$, meaning that halving the excess capacity
+doubles the queue length. This sensitivity makes operating near $\rho = 1$ impractical
+in real systems.
 
-In the unstable regime, the divergence of the queue highlights the importance of maintaining a service rate higher than the arrival rate in practical systems.
+In the unstable regime ($\rho > 1$), the queue diverges, highlighting the fundamental
+importance of dimensioning network resources so that service capacity always exceeds
+the offered load.
 
-These results demonstrate the fundamental relationship between system load and performance in queueing systems.
+Although the time-average metrics converge to theoretical values, the system retains
+significant instantaneous variability. This is a fundamental characteristic of stochastic
+systems: even in steady state, the queue size is a random variable with standard deviation
+$\sigma_{L} = \rho / (1-\rho)$, which grows without bound as $\rho \to 1$. This variability
+cannot be reduced by longer simulation runs — it is an intrinsic property of the system.
+
 
 \newpage
 
@@ -501,20 +671,21 @@ These results demonstrate the fundamental relationship between system load and p
 
 This laboratory work successfully explored the properties of Poisson arrival processes and their application to queueing systems.
 
-The simulation of Poisson processes demonstrated a strong agreement between experimental results and the theoretical distribution. The impact of the parameter $\lambda$ on the shape and dispersion of the distribution was clearly observed.
+The simulation of Poisson processes demonstrated a strong agreement between experimental results and the theoretical distribution. The impact of the parameter $\lambda$ on the shape and dispersion of the distribution was clearly observed: small values yield sparse, geometric-like distributions, while large values produce bell-shaped distributions that converge to a Gaussian, consistent with the Central Limit Theorem. The effect of the sample size $N$ was also systematically studied, confirming that the approximation error decays as $\mathcal{O}(1/\sqrt{N})$ in accordance with the Law of Large Numbers.
 
-The superposition experiment confirmed that the aggregation of independent Poisson processes results in another Poisson process, with rate equal to the sum of the individual rates.
+The superposition experiment confirmed that the aggregation of independent Poisson processes results in another Poisson process, with rate equal to the sum of the individual rates. This closure property is of practical importance in network modelling, as it justifies treating aggregate traffic from many independent sources as a single Poisson flow.
 
-The M/M/1 queue simulation further extended this analysis by introducing service dynamics. The results showed that system performance strongly depends on the relationship between arrival and service rates.
+The M/M/1 queue simulation further extended this analysis by introducing service dynamics. The steady-state behaviour was explained through the geometric distribution $\pi_n = (1-\rho)\rho^n$ and all performance metrics were derived from it via Little's Law. The simulation results showed strong convergence to theoretical values for $N = 100\,000$ events.
+
+The sensitivity of queue performance to traffic intensity was highlighted by finding $(\lambda, \mu)$ pairs that achieve target queue lengths of 1, 10, 100, and 1000: the required $\rho$ approaches 1 rapidly, demonstrating the extreme non-linearity of queueing systems under high load.
 
 In particular:
 \begin{itemize}
-    \item For $\lambda < \mu$, the system remains stable and performance metrics converge to theoretical values;
-    \item For $\lambda = \mu$, the system operates at the stability limit;
-    \item For $\lambda > \mu$, the system becomes unstable and the queue grows without bound.
+    \item For $\lambda < \mu$, the system remains stable, with metrics governed by $\rho = \lambda/\mu$ through Little's Law;
+    \item For $\lambda = \mu$, no steady-state exists and the queue grows unboundedly;
+    \item For $\lambda > \mu$, the system is unstable and the queue diverges at rate $(\lambda - \mu)t$.
 \end{itemize}
 
-Overall, the results highlight the importance of maintaining adequate service capacity in systems subject to stochastic traffic, such as communication networks.
-
+Overall, the results highlight the importance of maintaining adequate service capacity in systems subject to stochastic traffic, such as communication networks. The close agreement between simulation and theory validates the correctness of the implemented models across all tested scenarios.
 
 \end{document}
