@@ -1,1 +1,20 @@
 \babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {part}{Part A — OSPF Network Configuration}{3}{part*.2}%
+\contentsline {section}{\numberline {2}Network Topology}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Broadcast Domains}{3}{subsection.2.1}%
+\contentsline {section}{\numberline {3}IPv4 Addressing Plan}{4}{section.3}%
+\contentsline {section}{\numberline {4}Router Configuration}{4}{section.4}%
+\contentsline {section}{\numberline {5}OSPF Configuration}{5}{section.5}%
+\contentsline {section}{\numberline {6}Routing Table Analysis}{5}{section.6}%
+\contentsline {section}{\numberline {7}OSPF Cost Manipulation}{5}{section.7}%
+\contentsline {section}{\numberline {8}Experimental Results}{6}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Interface Verification}{6}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}OSPF Neighbor Adjacency}{6}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Routing Table Analysis}{7}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}OSPF Cost Manipulation}{7}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Connectivity Verification}{7}{subsection.8.5}%
+\contentsline {subsection}{\numberline {8.6}Link Failure and OSPF Convergence}{8}{subsection.8.6}%
+\contentsline {part}{Part B — TBD}{9}{part*.5}%
+\contentsline {part}{Part C — TBD}{10}{part*.6}%
+\contentsline {section}{\numberline {9}Conclusion}{11}{section.9}%

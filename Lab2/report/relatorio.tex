@@ -4,109 +4,139 @@
 \documentclass[12pt]{article}
 
 % ----------------------------------------------------------------------
-% Define external packages, language, margins, fonts, new commands 
-% and colors
+% Packages
 % ----------------------------------------------------------------------
-\usepackage[utf8]{inputenc} % Codification
-\usepackage[english]{babel} % Writing idiom
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
 
 \usepackage{booktabs}
+\usepackage{listings}
 
-\usepackage[export]{adjustbox} % Align images
-\usepackage{amsmath} % Extra commands for math mode
-\usepackage{amssymb} % Mathematical symbols
-\usepackage{anysize} % Personalize margins
-    \marginsize{2cm}{2cm}{2cm}{2cm} % {left}{right}{above}{below}
-\usepackage{appendix} % Appendices
-\usepackage{cancel} % Expression cancellation
-\usepackage{caption} % Captions
-    \captionsetup{labelfont={bf}}
-\usepackage{cite} % Citations, like [1 - 3]
-\usepackage{color} % Text coloring
-\usepackage{fancyhdr} % Head note and footnote
-    \pagestyle{fancy}
-    \fancyhf{}
-    \fancyhead[L]{\footnotesize IST} % Left of Head note
-    \fancyhead[R]{\footnotesize ULisboa} % Right of Head note
-    \fancyfoot[L]{\footnotesize Traffic Engineering} % Left of Footnote
-    \fancyfoot[C]{\thepage} % Center of Footnote
-    \fancyfoot[R]{\footnotesize METI} % Right of Footnote
-    \renewcommand{\footrulewidth}{0.4pt} % Footnote rule
-\usepackage{float} % Utilization of [H] in figures
-\usepackage{graphicx} % Figures in LaTeX
-\usepackage[colorlinks = true, plainpages = true, linkcolor = istblue, urlcolor = istblue, citecolor = istblue, anchorcolor = istblue]{hyperref}
-\usepackage{indentfirst} % First paragraph
-\usepackage[super]{nth} % Superscripts
-\usepackage{siunitx} % SI units
-\usepackage{subcaption} % Subfigures
-\usepackage{booktabs} % Professional tables
-\usepackage{multirow} % Multi-row tables
-\usepackage{titlesec} % Font
-    \titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
-    \titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
-    \titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
-    \fancyfoot[C]{\thepage}
+\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{anysize}
+\marginsize{2cm}{2cm}{2cm}{2cm}
+
+\usepackage{appendix}
+\usepackage{cancel}
+
+\usepackage{caption}
+\captionsetup{labelfont={bf}}
+
+\usepackage{cite}
+\usepackage{color}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize IST}
+\fancyhead[R]{\footnotesize ULisboa}
+\fancyfoot[L]{\footnotesize Traffic Engineering}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\footnotesize METI}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{float}
+\usepackage{graphicx}
+
+\usepackage[
+colorlinks = true,
+plainpages = true,
+linkcolor = istblue,
+urlcolor = istblue,
+citecolor = istblue,
+anchorcolor = istblue
+]{hyperref}
+
+\usepackage{indentfirst}
+\usepackage[super]{nth}
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{titlesec}
+
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
 
 % Random text (not needed)
 \usepackage{lipsum}
 \usepackage{duckuments}
 
-% New and re-newcommands
-\newcommand{\sen}{\operatorname{\sen}} % Sine function definition
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Specific rule definition
-\renewcommand{\appendixpagename}{\LARGE Appendices}
+% ----------------------------------------------------------------------
+% Commands
+% ----------------------------------------------------------------------
 
+\newcommand{\sen}{\operatorname{\sen}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+% ----------------------------------------------------------------------
 % Colors
-\definecolor{istblue}{RGB}{3, 171, 230}
+% ----------------------------------------------------------------------
+
+\definecolor{istblue}{RGB}{3,171,230}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                 Document                             %
+% Document
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
 
 % ----------------------------------------------------------------------
 % Cover
 % ----------------------------------------------------------------------
+
 \begin{center}
-    \begin{figure}
-        \vspace{-1.0cm}
-        \includegraphics[scale = 0.25, left]{Images/IST_A.png} % IST logo
-    \end{figure}
-    \mbox{}\\[2.0cm]
-    \textsc{\Huge Traffic Engineering}\\[2.5cm]
-    \textsc{\LARGE METI}\\[2.0cm]
-    \HRule\\[0.4cm]
-    {\large \bf {Lab 2 Report} [\texttt{EN}]}\\[0.2cm]
-    \HRule\\[1.5cm]
+
+\begin{figure}
+    \vspace{-1.0cm}
+    \includegraphics[scale = 0.25, left]{Images/IST_A.png}
+\end{figure}
+
+\mbox{}\\[2.0cm]
+
+\textsc{\Huge Traffic Engineering}\\[2.5cm]
+
+\textsc{\LARGE METI}\\[2.0cm]
+
+\HRule\\[0.4cm]
+
+{\large \bf {Lab 2 Report} [\texttt{EN}]}\\[0.2cm]
+
+\HRule\\[1.5cm]
+
 \end{center}
 
 \begin{flushleft}
-    \textbf{Authors:}
+\textbf{Authors:}
 \end{flushleft}
 
 \begin{center}
-    \begin{minipage}{0.5\textwidth}
-        \begin{flushleft}
-            José Oliveira (103771)\\
-            Tiago Videira (116069)\\
-        \end{flushleft}
-    \end{minipage}%
-    \begin{minipage}{0.5\textwidth}
-        \begin{flushright}
-            \href{mailto:jose.novais.oliveira@tecnico.ulisboa.pt}{\texttt{jose.novais.oliveira@tecnico.ulisboa.pt}}\\
-            \href{mailto:tiago.g.videira@tecnico.ulisboa.pt}{\texttt{tiago.g.videira@tecnico.ulisboa.pt}}\\
-        \end{flushright}
-    \end{minipage}
-\end{center}
-    
+
+\begin{minipage}{0.5\textwidth}
 \begin{flushleft}
-    \large $\boxed{\text{\bf Group 5}}$\\[4.0cm]
+José Oliveira (103771)\\
+Tiago Videira (116069)\\
 \end{flushleft}
-    
+\end{minipage}%
+\begin{minipage}{0.5\textwidth}
+\begin{flushright}
+\href{mailto:jose.novais.oliveira@tecnico.ulisboa.pt}{\texttt{jose.novais.oliveira@tecnico.ulisboa.pt}}\\
+\href{mailto:tiago.g.videira@tecnico.ulisboa.pt}{\texttt{tiago.g.videira@tecnico.ulisboa.pt}}\\
+\end{flushright}
+\end{minipage}
+
+\end{center}
+
+\begin{flushleft}
+\large $\boxed{\text{\bf Group 5}}$\\[4.0cm]
+\end{flushleft}
+
 \begin{center}
-    \large \bf 2025/2026 -- \nth{2} Semester, P4
+\large \bf 2025/2026 -- \nth{2} Semester, P4
 \end{center}
 
 \thispagestyle{empty}
@@ -114,9 +144,463 @@
 \setcounter{page}{0}
 
 \tableofcontents
+
 \newpage
 
+% =========================================================
+\section{Introduction}
 
+The objective of this laboratory assignment was to implement and analyze IP routing mechanisms using Cisco routers within the GNS3 simulation environment.
 
+The experiments performed throughout the laboratory focused on dynamic routing protocols, routing behavior, path selection mechanisms, and routing convergence.
+
+The laboratory activities included:
+\begin{itemize}
+    \item IPv4 subnetting using VLSM;
+    \item router interface configuration;
+    \item OSPF routing configuration;
+    \item routing table analysis;
+    \item OSPF metric manipulation;
+    \item connectivity verification;
+    \item link failure simulation and convergence analysis.
+\end{itemize}
+
+The network topology consisted of five routers (R1 to R5) and two end devices (PC1 and PC2), interconnected through multiple redundant paths.
+
+\newpage
+
+% =========================================================
+\part*{Part A — OSPF Network Configuration}
+\addcontentsline{toc}{part}{Part A — OSPF Network Configuration}
+
+% =========================================================
+\section{Network Topology}
+
+The network topology implemented in GNS3 is presented below.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{../Topology-ETraf.PNG}
+\caption{General network topology}
+\end{figure}
+
+The topology contains five routers interconnected through multiple redundant paths, allowing OSPF to dynamically calculate alternative routes in case of failures.
+
+Additionally:
+\begin{itemize}
+    \item PC1 is connected to R1;
+    \item PC2 is connected to R5.
+\end{itemize}
+
+% =========================================================
+\subsection{Broadcast Domains}
+
+Each physical link corresponds to an independent subnet/broadcast domain.
+
+The network contains:
+\begin{itemize}
+    \item 6 router-to-router subnets;
+    \item 2 LAN subnets (PC1-R1 and PC2-R5).
+\end{itemize}
+
+Therefore, the topology contains a total of:
+
+\[
+8 \text{ broadcast domains}
+\]
+
+\newpage
+% =========================================================
+\section{IPv4 Addressing Plan}
+
+The network address block assigned was:
+
+\[
+192.168.5.0/24
+\]
+
+Using VLSM, the address space was segmented into multiple /30 subnets.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc}
+\toprule
+\textbf{Link} & \textbf{Subnet} & \textbf{IPs Used} \\
+\midrule
+R1-R2 & 192.168.5.4/30 & .5 / .6 \\
+R1-R3 & 192.168.5.8/30 & .9 / .10 \\
+R2-R3 & 192.168.5.12/30 & .13 / .14 \\
+R2-R4 & 192.168.5.16/30 & .17 / .18 \\
+R4-R5 & 192.168.5.20/30 & .21 / .22 \\
+R3-R5 & 192.168.5.24/30 & .25 / .26 \\
+PC1-R1 & 192.168.5.0/30 & .1 / .2 \\
+PC2-R5 & 192.168.5.28/30 & .29 / .30 \\
+\bottomrule
+\end{tabular}
+\caption{IPv4 addressing plan}
+\end{table}
+
+% =========================================================
+\section{Router Configuration}
+
+Each router interface was configured manually.
+
+Example configuration used on R1:
+
+\begin{lstlisting}
+interface FastEthernet1/0
+ip address 192.168.5.2 255.255.255.252
+no shutdown
+
+interface FastEthernet0/0
+ip address 192.168.5.5 255.255.255.252
+no shutdown
+
+interface FastEthernet0/1
+ip address 192.168.5.9 255.255.255.252
+no shutdown
+\end{lstlisting}
+
+The command below was used to verify interface status:
+
+\begin{lstlisting}
+show ip interface brief
+\end{lstlisting}
+
+All interfaces reached the \texttt{up/up} operational state.
+
+The same configuration methodology was applied to all routers in the topology.
+
+\newpage
+% =========================================================
+\section{OSPF Configuration}
+
+OSPF was configured using process ID 1.
+
+The following commands were applied:
+
+\begin{lstlisting}
+router ospf 1
+network 192.168.5.0 0.0.0.255 area 0
+\end{lstlisting}
+
+After configuration, OSPF neighbor relationships were successfully established.
+
+The command used to verify adjacency status was:
+
+\begin{lstlisting}
+show ip ospf neighbor
+\end{lstlisting}
+
+Routers reached the FULL adjacency state, confirming successful synchronization of OSPF databases.
+
+All routers were configured within OSPF Area 0.
+
+% =========================================================
+\section{Routing Table Analysis}
+
+The routing table was inspected using:
+
+\begin{lstlisting}
+show ip route
+\end{lstlisting}
+
+Routes learned dynamically through OSPF were identified with the letter:
+
+\[
+O
+\]
+
+Initially, multiple equal-cost paths existed for some destinations, demonstrating Equal Cost Multi-Path (ECMP) behavior.
+
+Example:
+
+\begin{lstlisting}
+O 192.168.5.12 [110/20] via 192.168.5.10
+                 via 192.168.5.6
+\end{lstlisting}
+
+This indicates that two paths with identical OSPF cost were available.
+
+This demonstrated the capability of OSPF to support load balancing across equal-cost paths.
+
+% =========================================================
+\section{OSPF Cost Manipulation}
+
+To analyze OSPF path selection behavior, the cost of interface FastEthernet0/1 on R1 was increased.
+
+Configuration used:
+
+\begin{lstlisting}
+interface FastEthernet0/1
+ip ospf cost 100
+\end{lstlisting}
+
+After modifying the cost:
+\begin{itemize}
+    \item OSPF recalculated the routing table;
+    \item alternative lower-cost paths were selected;
+    \item traffic was redirected automatically.
+\end{itemize}
+
+Traceroute confirmed the path modification.
+
+Before the cost change:
+
+\[
+R1 \rightarrow R3 \rightarrow R5
+\]
+
+After increasing the interface cost:
+
+\[
+R1 \rightarrow R2 \rightarrow R4 \rightarrow R5
+\]
+
+This demonstrated OSPF metric-based path selection.
+
+This experiment demonstrated how OSPF metrics directly influence path selection decisions.
+
+% =========================================================
+\section{Experimental Results}
+
+This section presents the experimental results obtained during the implementation and testing of the network.
+
+% ---------------------------------------------------------
+\subsection{Interface Verification}
+
+After configuring the interfaces, the following command was used to verify interface status:
+
+\begin{lstlisting}
+show ip interface brief
+\end{lstlisting}
+
+Example output from R1:
+
+\begin{lstlisting}
+Interface              IP-Address      Status      Protocol
+
+FastEthernet0/0        192.168.5.5     up          up
+FastEthernet0/1        192.168.5.9     up          up
+FastEthernet1/0        192.168.5.2     up          up
+\end{lstlisting}
+
+The output confirmed that all interfaces were correctly configured and operational.
+
+% ---------------------------------------------------------
+\subsection{OSPF Neighbor Adjacency}
+
+The following command was used to verify OSPF neighbor relationships:
+
+\begin{lstlisting}
+show ip ospf neighbor
+\end{lstlisting}
+
+Observed output:
+
+\begin{lstlisting}
+Neighbor ID     Pri   State      Dead Time   Address        Interface
+
+192.168.5.25      1   FULL/BDR   00:00:32    192.168.5.10  FastEthernet0/1
+192.168.5.17      1   FULL/DR    00:00:33    192.168.5.6   FastEthernet0/0
+\end{lstlisting}
+
+The FULL state confirmed that OSPF adjacencies were successfully established and routing databases were synchronized.
+
+\newpage
+% ---------------------------------------------------------
+\subsection{Routing Table Analysis}
+
+The routing table was analyzed using:
+
+\begin{lstlisting}
+show ip route
+\end{lstlisting}
+
+Example output:
+
+\begin{lstlisting}
+O 192.168.5.12 [110/20] via 192.168.5.10
+                 via 192.168.5.6
+
+O 192.168.5.24 [110/11] via 192.168.5.10
+
+O 192.168.5.16 [110/11] via 192.168.5.6
+\end{lstlisting}
+
+Routes marked with the letter \texttt{O} correspond to routes learned through OSPF.
+
+Initially, some routes had multiple equal-cost paths, demonstrating Equal Cost Multi-Path (ECMP) behavior.
+
+% ---------------------------------------------------------
+\subsection{OSPF Cost Manipulation}
+
+To influence path selection, the OSPF cost of interface FastEthernet0/1 on R1 was increased.
+
+Configuration used:
+
+\begin{lstlisting}
+interface FastEthernet0/1
+ip ospf cost 100
+\end{lstlisting}
+
+After changing the cost, the routing table changed accordingly.
+
+Updated routing example:
+
+\begin{lstlisting}
+O 192.168.5.12 [110/20] via 192.168.5.6
+
+O 192.168.5.24 [110/21] via 192.168.5.6
+
+O 192.168.5.20 [110/21] via 192.168.5.6
+\end{lstlisting}
+
+This confirmed that OSPF selected the path with the lowest accumulated metric.
+
+% ---------------------------------------------------------
+\subsection{Connectivity Verification}
+
+Connectivity between end devices was tested using ICMP echo requests.
+
+Command executed:
+
+\begin{lstlisting}
+ping 192.168.5.30
+\end{lstlisting}
+
+Observed output:
+
+\begin{lstlisting}
+!!!!!
+Success rate is 100 percent (5/5)
+\end{lstlisting}
+
+This confirmed successful communication between PC1 and PC2.
+
+Traceroute was also performed:
+
+\begin{lstlisting}
+traceroute 192.168.5.30
+\end{lstlisting}
+
+Observed route before OSPF cost manipulation:
+
+\begin{lstlisting}
+1 192.168.5.6
+2 192.168.5.14
+3 192.168.5.26
+4 192.168.5.30
+\end{lstlisting}
+
+After increasing the OSPF cost, the selected route changed:
+
+\begin{lstlisting}
+1 192.168.5.10
+2 192.168.5.26
+3 192.168.5.30
+\end{lstlisting}
+
+This demonstrated successful dynamic route recalculation.
+
+% ---------------------------------------------------------
+\subsection{Link Failure and OSPF Convergence}
+
+To evaluate convergence behavior, one of the active interfaces was disabled.
+
+Command executed:
+
+\begin{lstlisting}
+interface FastEthernet0/0
+shutdown
+\end{lstlisting}
+
+OSPF immediately detected the failure:
+
+\begin{lstlisting}
+%OSPF-5-ADJCHG:
+Process 1, Nbr 192.168.5.17 on FastEthernet0/0
+from FULL to DOWN
+\end{lstlisting}
+
+The routing table was automatically recalculated and traffic was redirected through alternative paths.
+
+Traceroute after failure:
+
+\begin{lstlisting}
+1 192.168.5.10
+2 192.168.5.26
+3 192.168.5.30
+\end{lstlisting}
+
+The interface was restored using:
+
+\begin{lstlisting}
+no shutdown
+\end{lstlisting}
+
+OSPF adjacency was re-established successfully:
+
+\begin{lstlisting}
+%OSPF-5-ADJCHG:
+Process 1, Nbr 192.168.5.17
+from LOADING to FULL
+\end{lstlisting}
+
+This demonstrated:
+\begin{itemize}
+    \item automatic fault detection;
+    \item dynamic rerouting;
+    \item successful OSPF convergence.
+\end{itemize}
+
+% =========================================================
+% Future Parts
+% =========================================================
+
+\newpage
+
+\part*{Part B — TBD}
+\addcontentsline{toc}{part}{Part B — TBD}
+
+\vspace{2cm}
+
+This section will contain the experiments and analysis developed in Part B of the laboratory assignment.
+
+\newpage
+
+\part*{Part C — TBD}
+\addcontentsline{toc}{part}{Part C — TBD}
+
+\vspace{2cm}
+
+This section will contain the experiments and analysis developed in Part C of the laboratory assignment.
+
+\newpage
+% =========================================================
+\section{Conclusion}
+
+This laboratory assignment successfully demonstrated the deployment and analysis of an OSPF-based IP network using Cisco routers in GNS3.
+
+The implementation of VLSM enabled efficient IPv4 address allocation across all network segments. OSPF dynamically exchanged routing information and automatically selected optimal paths according to interface metrics.
+
+Several experiments were performed to evaluate OSPF behavior under different network conditions, including:
+\begin{itemize}
+    \item routing table analysis;
+    \item OSPF cost manipulation;
+    \item connectivity verification;
+    \item link failure simulation;
+    \item routing convergence analysis.
+\end{itemize}
+
+The obtained results demonstrated:
+\begin{itemize}
+    \item successful end-to-end connectivity;
+    \item dynamic path recalculation;
+    \item automatic failover capabilities;
+    \item fast OSPF convergence.
+\end{itemize}
+
+Overall, this assignment provided practical experience with dynamic routing protocols and fundamental traffic engineering concepts.
 
 \end{document}
