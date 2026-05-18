@@ -170,11 +170,10 @@ The network topology consisted of five routers (R1 to R5) and two end devices (P
 \newpage
 
 % =========================================================
-\part*{Part A — OSPF Network Configuration}
-\addcontentsline{toc}{part}{Part A — OSPF Network Configuration}
+\section{Part A — OSPF Network Configuration}
 
 % =========================================================
-\section{Network Topology}
+\subsection{Network Topology}
 
 The network topology implemented in GNS3 is presented below.
 
@@ -193,7 +192,7 @@ Additionally:
 \end{itemize}
 
 % =========================================================
-\subsection{Broadcast Domains}
+\subsubsection{Broadcast Domains}
 
 Each physical link corresponds to an independent subnet/broadcast domain.
 
@@ -211,7 +210,7 @@ Therefore, the topology contains a total of:
 
 \newpage
 % =========================================================
-\section{IPv4 Addressing Plan}
+\subsection{IPv4 Addressing Plan}
 
 The network address block assigned was:
 
@@ -241,7 +240,7 @@ PC2-R5 & 192.168.5.28/30 & .29 / .30 \\
 \end{table}
 
 % =========================================================
-\section{Router Configuration}
+\subsection{Router Configuration}
 
 Each router interface was configured manually.
 
@@ -273,7 +272,7 @@ The same configuration methodology was applied to all routers in the topology.
 
 \newpage
 % =========================================================
-\section{OSPF Configuration}
+\subsection{OSPF Configuration}
 
 OSPF was configured using process ID 1.
 
@@ -297,7 +296,7 @@ Routers reached the FULL adjacency state, confirming successful synchronization 
 All routers were configured within OSPF Area 0.
 
 % =========================================================
-\section{Routing Table Analysis}
+\subsection{Routing Table Analysis}
 
 The routing table was inspected using:
 
@@ -325,7 +324,7 @@ This indicates that two paths with identical OSPF cost were available.
 This demonstrated the capability of OSPF to support load balancing across equal-cost paths.
 
 % =========================================================
-\section{OSPF Cost Manipulation}
+\subsection{OSPF Cost Manipulation}
 
 To analyze OSPF path selection behavior, the cost of interface FastEthernet0/1 on R1 was increased.
 
@@ -361,12 +360,12 @@ This demonstrated OSPF metric-based path selection.
 This experiment demonstrated how OSPF metrics directly influence path selection decisions.
 
 % =========================================================
-\section{Experimental Results}
+\subsection{Experimental Results}
 
 This section presents the experimental results obtained during the implementation and testing of the network.
 
 % ---------------------------------------------------------
-\subsection{Interface Verification}
+\subsubsection{Interface Verification}
 
 After configuring the interfaces, the following command was used to verify interface status:
 
@@ -387,7 +386,7 @@ FastEthernet1/0        192.168.5.2     up          up
 The output confirmed that all interfaces were correctly configured and operational.
 
 % ---------------------------------------------------------
-\subsection{OSPF Neighbor Adjacency}
+\subsubsection{OSPF Neighbor Adjacency}
 
 The following command was used to verify OSPF neighbor relationships:
 
@@ -408,7 +407,7 @@ The FULL state confirmed that OSPF adjacencies were successfully established and
 
 \newpage
 % ---------------------------------------------------------
-\subsection{Routing Table Analysis}
+\subsubsection{Routing Table Analysis}
 
 The routing table was analyzed using:
 
@@ -432,7 +431,7 @@ Routes marked with the letter \texttt{O} correspond to routes learned through OS
 Initially, some routes had multiple equal-cost paths, demonstrating Equal Cost Multi-Path (ECMP) behavior.
 
 % ---------------------------------------------------------
-\subsection{OSPF Cost Manipulation}
+\subsubsection{OSPF Cost Manipulation}
 
 To influence path selection, the OSPF cost of interface FastEthernet0/1 on R1 was increased.
 
@@ -458,7 +457,7 @@ O 192.168.5.20 [110/21] via 192.168.5.6
 This confirmed that OSPF selected the path with the lowest accumulated metric.
 
 % ---------------------------------------------------------
-\subsection{Connectivity Verification}
+\subsubsection{Connectivity Verification}
 
 Connectivity between end devices was tested using ICMP echo requests.
 
@@ -503,7 +502,7 @@ After increasing the OSPF cost, the selected route changed:
 This demonstrated successful dynamic route recalculation.
 
 % ---------------------------------------------------------
-\subsection{Link Failure and OSPF Convergence}
+\subsubsection{Link Failure and OSPF Convergence}
 
 To evaluate convergence behavior, one of the active interfaces was disabled.
 
@@ -553,27 +552,286 @@ This demonstrated:
     \item successful OSPF convergence.
 \end{itemize}
 
+\newpage
+
+\section{Part B — MPLS Configuration and Analysis}
+
+\subsection{Introduction}
+
+The objective of Part B was to configure and analyze an MPLS-based network using Cisco routers in GNS3.
+
+The experiments focused on:
+\begin{itemize}
+    \item enabling MPLS forwarding;
+    \item configuring LDP (Label Distribution Protocol);
+    \item analyzing MPLS forwarding tables;
+    \item observing MPLS labels using Wireshark;
+    \item demonstrating Penultimate Hop Popping (PHP);
+    \item testing MPLS recovery after link failures.
+\end{itemize}
+
+The MPLS network was implemented on top of the OSPF infrastructure configured in Part A.
+
 % =========================================================
-% Future Parts
+\subsection{MPLS Configuration}
+
+Cisco Express Forwarding (CEF) was enabled on all routers to support MPLS operation.
+
+The following commands were applied:
+
+\begin{lstlisting}
+ip cef
+mpls ip
+\end{lstlisting}
+
+MPLS was enabled on the router interfaces participating in the MPLS core.
+
+Example configuration on R3:
+
+\begin{lstlisting}
+interface FastEthernet0/0
+mpls ip
+
+interface FastEthernet1/0
+mpls ip
+
+interface FastEthernet1/1
+mpls ip
+\end{lstlisting}
+
+OSPF was used as the underlying routing protocol to distribute reachability information between routers.
+
 % =========================================================
+\subsection{LDP Neighbor Verification}
+
+LDP neighbors were verified using the following command:
+
+\begin{lstlisting}
+show mpls ldp neighbor
+\end{lstlisting}
+
+Example output obtained on R3:
+
+\begin{lstlisting}
+Peer LDP Ident: 192.168.5.9:0
+State: Oper
+
+Peer LDP Ident: 192.168.5.29:0
+State: Oper
+
+Peer LDP Ident: 192.168.5.17:0
+State: Oper
+\end{lstlisting}
+
+The \texttt{Oper} state confirmed that LDP sessions were successfully established and labels were being exchanged between MPLS routers.
+
+% =========================================================
+\subsection{MPLS Interface Verification}
+
+MPLS-enabled interfaces were verified using:
+
+\begin{lstlisting}
+show mpls interfaces
+\end{lstlisting}
+
+Example output:
+
+\begin{lstlisting}
+Interface              IP            Operational
+FastEthernet0/0        Yes (ldp)     Yes
+FastEthernet1/0        Yes (ldp)     Yes
+FastEthernet1/1        Yes (ldp)     Yes
+\end{lstlisting}
+
+This confirmed that MPLS forwarding and LDP were operational on all core links.
+
+% =========================================================
+\subsection{MPLS Forwarding Table Analysis}
+
+The MPLS forwarding table was inspected using:
+
+\begin{lstlisting}
+show mpls forwarding-table
+\end{lstlisting}
+
+Example output obtained on R3:
+
+\begin{lstlisting}
+Local  Outgoing  Prefix
+Label  Label
+
+16     Pop Label 192.168.5.4/30
+17     Pop Label 192.168.5.0/30
+18     Pop Label 192.168.5.16/30
+19     Pop Label 192.168.5.20/30
+20     Pop Label 192.168.5.28/30
+\end{lstlisting}
+
+The forwarding table demonstrated that MPLS labels were correctly assigned and distributed across the network.
+
+The presence of the \texttt{Pop Label} operation confirmed the implementation of Penultimate Hop Popping (PHP).
+
+% =========================================================
+\subsection{Wireshark Analysis and PHP Demonstration}
+
+Wireshark captures were performed to analyze MPLS label switching behavior.
+
+Traffic was generated using:
+
+\begin{lstlisting}
+ping 192.168.5.30
+\end{lstlisting}
+
+and:
+
+\begin{lstlisting}
+trace 192.168.5.30
+\end{lstlisting}
+
+% ---------------------------------------------------------
+\subsubsection{MPLS Labels in the Core Network}
+
+Wireshark captures performed on core MPLS links showed packets containing MPLS headers.
+
+The captured packets contained entries similar to:
+
+\begin{lstlisting}
+MultiProtocol Label Switching Header
+Label: 20
+\end{lstlisting}
+
+This confirmed that MPLS labels were being attached and switched correctly inside the MPLS core.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../MPLS_Label_Core.png}
+\caption{MPLS labeled packet captured in the MPLS core}
+\end{figure}
+
+% ---------------------------------------------------------
+\subsubsection{Penultimate Hop Popping (PHP)}
+
+Additional captures were performed on the final hop between R5 and PC2.
+
+The captured packets no longer contained MPLS headers and only displayed IP and ICMP information.
+
+This demonstrated that the MPLS label was removed by the penultimate router before reaching the egress router.
+
+Therefore, Penultimate Hop Popping (PHP) was successfully verified.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../PHP_No_Label.png}
+\caption{Packet capture after PHP operation (no MPLS label present)}
+\end{figure}
+
+% =========================================================
+\subsection{Connectivity Verification}
+
+Connectivity between PC1 and PC2 was verified using ICMP echo requests.
+
+The following command was executed:
+
+\begin{lstlisting}
+ping 192.168.5.30
+\end{lstlisting}
+
+Observed output:
+
+\begin{lstlisting}
+!!!!!
+Success rate is 100 percent (5/5)
+\end{lstlisting}
+
+This confirmed successful MPLS forwarding and end-to-end connectivity.
+
+Traceroute was also performed:
+
+\begin{lstlisting}
+trace 192.168.5.30
+\end{lstlisting}
+
+Observed route before link failure:
+
+\begin{lstlisting}
+1 192.168.5.2
+2 192.168.5.10
+3 192.168.5.26
+4 192.168.5.30
+\end{lstlisting}
+
+This path corresponded to:
+
+\[
+R1 \rightarrow R3 \rightarrow R5
+\]
+
+% =========================================================
+\subsection{MPLS Failure Recovery and Convergence}
+
+To evaluate MPLS recovery behavior, the primary MPLS path between R1 and R3 was disabled.
+
+The following command was applied on R1:
+
+\begin{lstlisting}
+interface FastEthernet1/1
+shutdown
+\end{lstlisting}
+
+After the failure:
+\begin{itemize}
+    \item OSPF recalculated the routing table;
+    \item LDP sessions were updated;
+    \item MPLS forwarding switched to an alternative LSP.
+\end{itemize}
+
+Traceroute after the failure produced the following output:
+
+\begin{lstlisting}
+1 192.168.5.2
+2 192.168.5.6
+3 192.168.5.14
+4 192.168.5.26
+5 192.168.5.30
+\end{lstlisting}
+
+The new path corresponded to:
+
+\[
+R1 \rightarrow R2 \rightarrow R3 \rightarrow R5
+\]
+
+This demonstrated successful MPLS rerouting and network resilience after link failure.
+
+The failed interface was restored using:
+
+\begin{lstlisting}
+interface FastEthernet1/1
+no shutdown
+\end{lstlisting}
+
+After convergence, the original LSP was automatically restored.
+
+% =========================================================
+\subsection{Conclusion}
+
+This part of the laboratory successfully demonstrated the deployment and operation of MPLS forwarding in a Cisco-based network.
+
+The experiments confirmed:
+\begin{itemize}
+    \item successful LDP neighbor establishment;
+    \item MPLS label distribution and forwarding;
+    \item operation of Penultimate Hop Popping (PHP);
+    \item MPLS traffic analysis using Wireshark;
+    \item MPLS recovery after link failures.
+\end{itemize}
+
+The obtained results demonstrated the robustness and flexibility of MPLS networks under dynamic routing conditions.
+
+Overall, the laboratory provided practical experience with MPLS forwarding, label switching, and traffic engineering concepts.
 
 \newpage
 
-\part*{Part B — TBD}
-\addcontentsline{toc}{part}{Part B — TBD}
-
-\vspace{2cm}
-
-This section will contain the experiments and analysis developed in Part B of the laboratory assignment.
-
-\newpage
-
-\part*{Part C — TBD}
-\addcontentsline{toc}{part}{Part C — TBD}
-
-\vspace{2cm}
-
-This section will contain the experiments and analysis developed in Part C of the laboratory assignment.
 
 \newpage
 % =========================================================
