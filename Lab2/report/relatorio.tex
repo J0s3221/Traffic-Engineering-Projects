@@ -1733,29 +1733,39 @@ Together with the previously implemented MPLS VPN infrastructure, this final sta
 
 \newpage
 % =========================================================
+\newpage
+% =========================================================
 \section{Conclusion}
 
-This laboratory assignment successfully demonstrated the deployment and analysis of an OSPF-based IP network using Cisco routers in GNS3.
+This laboratory assignment successfully demonstrated the implementation and analysis of a complete MPLS provider network using Cisco routers within the GNS3 simulation environment.
 
-The implementation of VLSM enabled efficient IPv4 address allocation across all network segments. OSPF dynamically exchanged routing information and automatically selected optimal paths according to interface metrics.
-
-Several experiments were performed to evaluate OSPF behavior under different network conditions, including:
+Throughout the different laboratory stages, several networking technologies were deployed and validated, including:
 \begin{itemize}
-    \item routing table analysis;
-    \item OSPF cost manipulation;
-    \item connectivity verification;
-    \item link failure simulation;
-    \item routing convergence analysis.
+    \item OSPF dynamic routing;
+    \item MPLS forwarding and Label Distribution Protocol (LDP);
+    \item MPLS failover and convergence mechanisms;
+    \item MPLS Layer 3 VPN services;
+    \item VRF-based customer isolation;
+    \item MP-BGP VPNv4 route exchange;
+    \item MPLS Traffic Engineering (MPLS-TE);
+    \item RSVP signalling and CSPF dynamic path computation.
 \end{itemize}
 
-The obtained results demonstrated:
+The experiments demonstrated the operation of a resilient MPLS provider backbone capable of transporting multiple isolated customer VPNs while maintaining traffic separation through VRFs and VPNv4 routing.
+
+The MPLS Traffic Engineering experiments further demonstrated explicit traffic steering, RSVP-based tunnel establishment, and dynamic CSPF path computation inside the MPLS backbone.
+
+Wireshark packet captures confirmed MPLS label switching, MPLS VPN label stacking, and MPLS-TE forwarding behavior throughout the provider network.
+
+The obtained results validated:
 \begin{itemize}
-    \item successful end-to-end connectivity;
-    \item dynamic path recalculation;
-    \item automatic failover capabilities;
-    \item fast OSPF convergence.
+    \item successful MPLS forwarding operation;
+    \item dynamic routing convergence;
+    \item MPLS resiliency under link failures;
+    \item successful VPN isolation using overlapping IPv4 prefixes;
+    \item MPLS Traffic Engineering tunnel establishment;
+    \item dynamic TE path computation using CSPF.
 \end{itemize}
 
-Overall, this assignment provided practical experience with dynamic routing protocols and fundamental traffic engineering concepts.
-
+Overall, this laboratory assignment provided practical experience with modern MPLS service provider technologies and demonstrated the operation of a scalable and fault-tolerant MPLS backbone infrastructure.
 \end{document}

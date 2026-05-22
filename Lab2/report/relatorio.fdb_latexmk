@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1779462633.18005 "/Users/tiagovideira/Library/CloudStorage/OneDrive-UniversidadedeLisboa/ETraf/Traffic-Engineering-Projects/Lab2/report/relatorio.tex" "relatorio.pdf" "relatorio" 1779462635.45815 0
+["pdflatex"] 1779462721.24472 "/Users/tiagovideira/Library/CloudStorage/OneDrive-UniversidadedeLisboa/ETraf/Traffic-Engineering-Projects/Lab2/report/relatorio.tex" "relatorio.pdf" "relatorio" 1779462723.58443 0
   "../MPLS_Label_Core.png" 1779120524.47339 177110 34f8bf997027a2638ee31ad029e9a718 ""
   "../PHP_No_Label.png" 1779120538.30565 171158 babd93edb6cd2bd61c6f2f9fce4ee072 ""
   "../PartC_BGP_Summary.png" 1779457219.19612 66848 760a356a7d52944db43fd306319abe12 ""
@@ -20,7 +20,7 @@
   "../Topology-ETraf.PNG" 1778192910 25596 d3ce41d36e11bb6221e4dcd2e4c0af30 ""
   "../Topology_PartC.png" 1779452120.20256 140234 f4a730e8d33b98fb427606c065b2954f ""
   "../ping_IN.png" 1779461549.69001 102834 40c5c648c7e64546708aaec4830aee32 ""
-  "/Users/tiagovideira/Library/CloudStorage/OneDrive-UniversidadedeLisboa/ETraf/Traffic-Engineering-Projects/Lab2/report/relatorio.tex" 1779462630.60222 50223 bb6247914c1fb756d55a69aaf5e7af1b ""
+  "/Users/tiagovideira/Library/CloudStorage/OneDrive-UniversidadedeLisboa/ETraf/Traffic-Engineering-Projects/Lab2/report/relatorio.tex" 1779462721.24382 51075 1abde52e6d68b73d58ca8941dfe805e7 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
@@ -156,10 +156,10 @@
   "/usr/local/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt" 1774974915 3636771 269a2c863261023e7a4a9a30b55d47d6 ""
   "/usr/local/texlive/2026/texmf.cnf" 1774209515 577 648cd9f92f9c0eac486f4c71c85cfbbe ""
   "Images/IST_A.png" 1778166482.59959 29407 1ad550cd4e61234069258d2834ec97ba ""
-  "relatorio.aux" 1779462635.38155 12571 239afc172f1f396685b8d01da7302449 "pdflatex"
-  "relatorio.out" 1779462635.38334 12333 e788187d8eb8101a1f32877f0c7a7099 "pdflatex"
-  "relatorio.tex" 1779462630.60222 50223 bb6247914c1fb756d55a69aaf5e7af1b ""
-  "relatorio.toc" 1779462635.38376 5967 6069986bb0e9eeb8832507e46a5f68e7 "pdflatex"
+  "relatorio.aux" 1779462723.51218 12571 239afc172f1f396685b8d01da7302449 "pdflatex"
+  "relatorio.out" 1779462723.51383 12333 e788187d8eb8101a1f32877f0c7a7099 "pdflatex"
+  "relatorio.tex" 1779462721.24382 51075 1abde52e6d68b73d58ca8941dfe805e7 ""
+  "relatorio.toc" 1779462723.51421 5967 6069986bb0e9eeb8832507e46a5f68e7 "pdflatex"
   (generated)
   "relatorio.aux"
   "relatorio.log"
