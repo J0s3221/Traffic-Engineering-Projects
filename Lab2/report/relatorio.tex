@@ -344,16 +344,13 @@ After modifying the cost:
 
 Traceroute confirmed the path modification.
 
-Before: Equal-cost paths existed through both R2 and R3.
+Before the cost modification, traffic preferred the direct path:
 
-\[
-R1 \rightarrow R2 \rightarrow R3 \rightarrow R5
-\]
+R1 -> R3 -> R5
 
-After: Traffic preferred the path through R2.
-\[
-R1 \rightarrow R3 \rightarrow R5
-\]
+After increasing the OSPF cost on the R1-R3 interface, traffic was redirected through the alternative lower-cost path:
+
+R1 -> R2 -> R3 -> R5
 
 This demonstrated OSPF metric-based path selection.
 
@@ -831,6 +828,907 @@ The obtained results demonstrated the robustness and flexibility of MPLS network
 Overall, the laboratory provided practical experience with MPLS forwarding, label switching, and traffic engineering concepts.
 
 \newpage
+
+% =========================================================
+\section{Part C --- MPLS VPN Core Network}
+
+\subsection{Introduction}
+
+The objective of Part C was to design and implement a redundant MPLS provider backbone capable of supporting MPLS VPN services.
+
+Compared to the previous laboratory parts, the network topology was significantly expanded in order to simulate a realistic operator network with multiple Provider Edge (PE) and core Label Switch Routers (LSRs).
+
+The experiments performed in this part focused on:
+\begin{itemize}
+    \item implementation of a redundant MPLS core;
+    \item OSPF routing in the provider backbone;
+    \item MPLS forwarding and LDP operation;
+    \item MPLS forwarding table analysis;
+    \item MPLS path identification;
+    \item MPLS failover and recovery;
+    \item traffic rerouting after link failures.
+\end{itemize}
+
+% =========================================================
+\subsection{Provider Network Topology}
+
+The MPLS provider network was composed of:
+\begin{itemize}
+    \item 3 PE routers;
+    \item 5 P routers;
+    \item multiple redundant MPLS paths.
+\end{itemize}
+
+The topology was designed to guarantee high redundancy and fault tolerance.
+
+The following routers were used:
+\begin{itemize}
+    \item PE routers: R1-PE, R7-PE and R8-PE;
+    \item P routers: R2, R3, R4, R5 and R6.
+\end{itemize}
+
+Multiple redundant paths were implemented between PE routers to guarantee MPLS connectivity even after internal link failures.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{../Topology_PartC.png}
+\caption{Redundant MPLS provider backbone topology}
+\end{figure}
+
+% =========================================================
+\subsection{IPv4 Addressing Plan}
+
+All inter-router links were configured using dedicated /30 point-to-point subnets.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cc}
+\toprule
+\textbf{Link} & \textbf{Subnet} \\
+\midrule
+R1-R2 & 10.0.12.0/30 \\
+R1-R6 & 10.0.16.0/30 \\
+R2-R3 & 10.0.23.0/30 \\
+R3-R4 & 10.0.34.0/30 \\
+R3-R5 & 10.0.37.0/30 \\
+R3-R6 & 10.0.36.0/30 \\
+R4-R8 & 10.0.48.0/30 \\
+R5-R8 & 10.0.58.0/30 \\
+R5-R7 & 10.0.57.0/30 \\
+R6-R7 & 10.0.67.0/30 \\
+\bottomrule
+\end{tabular}
+\caption{IPv4 addressing plan used in the MPLS provider backbone}
+\end{table}
+
+Loopback interfaces were also configured on all routers and used as router identifiers.
+
+% =========================================================
+\subsection{OSPF Configuration}
+
+OSPF Area 0 was configured throughout the provider backbone to distribute routing information between all MPLS routers.
+
+Example configuration:
+
+\begin{lstlisting}
+router ospf 1
+ network 10.0.0.0 0.255.255.255 area 0
+\end{lstlisting}
+
+Loopback interfaces were also advertised through OSPF to guarantee end-to-end reachability between PE routers.
+
+OSPF neighbor relationships were verified using:
+
+\begin{lstlisting}
+show ip ospf neighbor
+\end{lstlisting}
+
+Example output obtained on R5:
+
+\begin{lstlisting}
+Neighbor ID     State      Address
+7.7.7.7         FULL       10.0.57.2
+3.3.3.3         FULL       10.0.37.1
+8.8.8.8         FULL       10.0.58.1
+\end{lstlisting}
+
+This confirmed successful OSPF adjacency establishment across the redundant backbone.
+
+% =========================================================
+\subsection{MPLS and LDP Configuration}
+
+Cisco Express Forwarding (CEF) was enabled on all routers before activating MPLS.
+
+The following commands were applied globally:
+
+\begin{lstlisting}
+ip cef
+mpls ip
+\end{lstlisting}
+
+MPLS was then enabled on all core interfaces.
+
+Example configuration on R3:
+
+\begin{lstlisting}
+interface FastEthernet0/0
+ mpls ip
+
+interface FastEthernet1/0
+ mpls ip
+
+interface FastEthernet1/1
+ mpls ip
+\end{lstlisting}
+
+LDP neighbor relationships were verified using:
+
+\begin{lstlisting}
+show mpls ldp neighbor
+\end{lstlisting}
+
+The output confirmed successful label exchange between MPLS routers.
+
+% =========================================================
+\subsection{MPLS Forwarding Validation}
+
+MPLS forwarding operation was validated using:
+
+\begin{lstlisting}
+show mpls forwarding-table
+\end{lstlisting}
+
+Example output:
+
+\begin{lstlisting}
+Local      Outgoing   Prefix
+Label      Label
+
+20         Pop Label  10.0.58.0/30
+22         27         8.8.8.8/32
+\end{lstlisting}
+
+The forwarding table confirmed:
+\begin{itemize}
+    \item MPLS label distribution;
+    \item label switching operation;
+    \item usage of Penultimate Hop Popping (PHP).
+\end{itemize}
+
+% =========================================================
+\subsection{MPLS Traceroute Analysis}
+
+Connectivity between PE routers was tested using ICMP and MPLS traceroute operations.
+
+The following command was executed on R1-PE:
+
+\begin{lstlisting}
+traceroute 8.8.8.8
+\end{lstlisting}
+
+Observed output before link failure:
+
+\begin{lstlisting}
+1 10.0.12.2 [MPLS: Label 22 Exp 0]
+2 10.0.36.1 [MPLS: Label 27 Exp 0]
+3 10.0.34.2 [MPLS: Label 22 Exp 0]
+4 10.0.48.2
+\end{lstlisting}
+
+This path corresponded to:
+
+\[
+R1\text{-}PE \rightarrow R6 \rightarrow R3 \rightarrow R4 \rightarrow R8\text{-}PE
+\]
+
+The MPLS labels visible in the traceroute confirmed successful MPLS forwarding across the provider backbone.
+
+% =========================================================
+\subsection{Wireshark MPLS Analysis}
+
+Wireshark was used to inspect MPLS packets traversing the network.
+
+Captures performed inside the MPLS core showed MPLS headers similar to:
+
+\begin{lstlisting}
+MultiProtocol Label Switching Header
+Label: 22
+\end{lstlisting}
+
+This confirmed that MPLS labels were correctly attached and switched throughout the provider backbone.
+
+Wireshark captures performed on the link between R4 and R8 showed MPLS encapsulated packets traversing the provider backbone.
+
+The captured packets contained MPLS headers carrying label information before the IPv4 and ICMP headers.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../PartC_MPLS_Core.png}
+\caption{MPLS labeled packet captured inside the MPLS core}
+\end{figure}
+
+The MPLS forwarding table also showed the use of the \texttt{Pop Label} operation, demonstrating Penultimate Hop Popping (PHP).
+
+% =========================================================
+\subsection{MPLS Failure Recovery and Redundancy}
+
+One of the objectives of this part was to verify MPLS resiliency under link failure conditions.
+
+To simulate a network failure, the link between R3 and R4 was disabled.
+
+The following command was executed on R3:
+
+\begin{lstlisting}
+interface FastEthernet1/1
+shutdown
+\end{lstlisting}
+
+After the failure:
+\begin{itemize}
+    \item OSPF recalculated the routing tables;
+    \item MPLS LSPs were recomputed;
+    \item traffic was automatically redirected through an alternative path.
+\end{itemize}
+
+Connectivity remained operational during the failure:
+
+\begin{lstlisting}
+!!!!!
+Success rate is 100 percent (5/5)
+\end{lstlisting}
+
+Traceroute after convergence produced the following output:
+
+\begin{lstlisting}
+1 10.0.12.2 [MPLS: Label 22 Exp 0]
+2 10.0.36.1 [MPLS: Label 27 Exp 0]
+3 10.0.37.2 [MPLS: Label 22 Exp 0]
+4 10.0.58.1
+\end{lstlisting}
+
+The new MPLS path corresponded to:
+
+\[
+R1\text{-}PE \rightarrow R6 \rightarrow R7\text{-}PE \rightarrow R5 \rightarrow R8\text{-}PE
+\]
+
+This demonstrated:
+\begin{itemize}
+    \item MPLS resiliency;
+    \item automatic OSPF convergence;
+    \item dynamic MPLS rerouting;
+    \item successful failover operation.
+\end{itemize}
+
+After the test, the failed interface was restored using:
+
+\begin{lstlisting}
+interface FastEthernet1/1
+no shutdown
+\end{lstlisting}
+
+The original MPLS path was automatically re-established.
+
+% =========================================================
+\subsection{MPLS Layer 3 VPN Deployment}
+
+After validating the MPLS core operation, an MPLS Layer 3 VPN service was implemented between two remote customer sites.
+
+The objective of this experiment was to verify the transport of customer traffic across the MPLS provider backbone using:
+\begin{itemize}
+    \item Virtual Routing and Forwarding instances (VRFs);
+    \item Multiprotocol BGP (MP-BGP);
+    \item VPNv4 route exchange;
+    \item MPLS label stacking.
+\end{itemize}
+
+Two customer sites belonging to \texttt{CLIENT\_1} were connected:
+\begin{itemize}
+    \item PC3 connected to R8-PE;
+    \item PC4 connected to R7-PE.
+\end{itemize}
+
+% =========================================================
+\subsubsection{VRF Configuration}
+
+A VRF named \texttt{CLIENT\_1} was created on both PE routers.
+
+The following parameters were configured:
+\begin{itemize}
+    \item Route Distinguisher (RD);
+    \item Route Targets (RT);
+    \item VPN route import/export policies.
+\end{itemize}
+
+Example configuration:
+
+\begin{lstlisting}
+ip vrf CLIENT_1
+ rd 100:1
+ route-target export 100:1
+ route-target import 100:1
+\end{lstlisting}
+
+Customer-facing interfaces were then associated with the VRF.
+
+Example on R7-PE:
+
+\begin{lstlisting}
+interface FastEthernet2/0
+ ip vrf forwarding CLIENT_1
+ ip address 192.168.40.1 255.255.255.0
+\end{lstlisting}
+
+Example on R8-PE:
+
+\begin{lstlisting}
+interface FastEthernet1/0
+ ip vrf forwarding CLIENT_1
+ ip address 192.168.30.1 255.255.255.0
+\end{lstlisting}
+
+% =========================================================
+\subsubsection{MP-BGP VPNv4 Configuration}
+
+MP-BGP sessions were established between the PE routers using their loopback interfaces.
+
+The VPNv4 address-family was activated to exchange VPN routes through the MPLS backbone.
+
+Example configuration:
+
+\begin{lstlisting}
+router bgp 65000
+
+ neighbor 8.8.8.8 remote-as 65000
+ neighbor 8.8.8.8 update-source Loopback0
+
+ address-family vpnv4
+  neighbor 8.8.8.8 activate
+  neighbor 8.8.8.8 send-community extended
+ exit-address-family
+
+ address-family ipv4 vrf CLIENT_1
+  redistribute connected
+ exit-address-family
+\end{lstlisting}
+
+The MP-BGP VPNv4 session was successfully established between the PE routers.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../PartC_BGP_Summary.png}
+\caption{MP-BGP VPNv4 session established between PE routers}
+\end{figure}
+
+% =========================================================
+\subsubsection{VPNv4 Route Exchange}
+
+VPNv4 routes were successfully exchanged between PE routers.
+
+The following output obtained on R7-PE confirmed the reception of remote VPN routes from R8-PE:
+
+\begin{lstlisting}
+Route Distinguisher: 100:1 (default for vrf CLIENT_1)
+
+*>i 192.168.30.0     8.8.8.8
+*>  192.168.40.0     0.0.0.0
+\end{lstlisting}
+
+This demonstrated that:
+\begin{itemize}
+    \item remote customer routes were transported through MP-BGP;
+    \item VRF route separation was operational;
+    \item the MPLS backbone successfully transported VPNv4 information.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../PartC_VPNv4_Routes.png}
+\caption{VPNv4 routes learned through MP-BGP}
+\end{figure}
+
+% =========================================================
+\subsubsection{VRF Routing Table Verification}
+
+The VRF routing tables confirmed the successful installation of remote VPN routes learned through MP-BGP.
+
+On R7-PE, the routing table associated with \texttt{CLIENT\_1} contained:
+\begin{itemize}
+    \item the locally connected customer network;
+    \item the remote customer network learned through MP-BGP.
+\end{itemize}
+
+The routing table showed that traffic destined to the remote customer site was forwarded through the VPN next-hop associated with the remote PE router.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../PartC_VRF_Routing.png}
+\caption{VRF routing table containing local and remote VPN routes}
+\end{figure}
+
+% =========================================================
+\subsubsection{End-to-End VPN Connectivity}
+
+Connectivity between customer sites was validated using ICMP traffic between PC3 and PC4.
+
+The following test was performed:
+
+\begin{lstlisting}
+PC3# ping 192.168.40.2
+\end{lstlisting}
+
+The communication succeeded successfully across the MPLS provider backbone.
+
+This confirmed:
+\begin{itemize}
+    \item correct VRF operation;
+    \item successful MP-BGP route distribution;
+    \item MPLS VPN forwarding functionality;
+    \item end-to-end customer connectivity.
+\end{itemize}
+
+% =========================================================
+\subsubsection{VPN Traceroute Analysis}
+
+Traceroute operations performed between customer sites demonstrated that traffic successfully traversed the MPLS provider backbone.
+
+The traceroute output showed MPLS labels being used while forwarding packets through intermediate provider routers.
+
+Example observed labels:
+\begin{itemize}
+    \item transport labels;
+    \item VPN labels associated with the customer VRF.
+\end{itemize}
+
+This confirmed that customer traffic was transported transparently across the MPLS infrastructure while remaining isolated inside the VPN instance.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../PartC_VPN_Traceroute.png}
+\caption{Traceroute between VPN customer sites through the MPLS backbone}
+\end{figure}
+
+% =========================================================
+\subsubsection{Wireshark MPLS VPN Analysis}
+
+Wireshark captures performed inside the MPLS core confirmed the successful transport of VPN traffic using MPLS encapsulation.
+
+The captured packets showed MPLS label stacking, where:
+\begin{itemize}
+    \item the outer label was used for MPLS transport through the provider backbone;
+    \item the inner label identified the VPN associated with the customer VRF.
+\end{itemize}
+
+The captured packets also contained IPv4 and ICMP headers corresponding to customer communication between remote VPN sites.
+
+Example packet structure observed:
+
+\begin{lstlisting}
+Ethernet II
+MPLS Label 19
+MPLS Label 16
+IPv4 Src: 192.168.40.2
+IPv4 Dst: 192.168.30.2
+ICMP Echo Reply
+\end{lstlisting}
+
+This confirmed the successful implementation of MPLS Layer 3 VPN services over the MPLS provider network.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{../PartC_MPLS_VPN.png}
+\caption{Wireshark capture showing MPLS VPN label stacking and VPN traffic encapsulation}
+\end{figure}
+
+% =========================================================
+\subsection{Multiple VPN Instances and Overlapping Addressing}
+
+After validating the operation of a single MPLS Layer 3 VPN instance, a second customer VPN was deployed over the same MPLS provider backbone.
+
+The objective of this experiment was to demonstrate:
+\begin{itemize}
+    \item simultaneous operation of multiple VPNs;
+    \item VPN isolation using VRFs;
+    \item MP-BGP support for multiple customer routing tables;
+    \item support for overlapping customer IPv4 addressing.
+\end{itemize}
+
+A second VRF named \texttt{CLIENT\_2} was created on the provider edge routers.
+
+The following configuration was applied:
+
+\begin{lstlisting}
+ip vrf CLIENT_2
+ rd 200:1
+ route-target export 200:1
+ route-target import 200:1
+\end{lstlisting}
+
+The second customer was connected using:
+\begin{itemize}
+    \item PC1 connected to R1-PE;
+    \item PC2 connected to R7-PE.
+\end{itemize}
+
+% =========================================================
+\subsubsection{Overlapping VPN Address Spaces}
+
+To demonstrate MPLS VPN isolation, the same IPv4 prefixes used previously in \texttt{CLIENT\_1} were reused in \texttt{CLIENT\_2}.
+
+The following networks were configured:
+\begin{itemize}
+    \item 192.168.30.0/24
+    \item 192.168.40.0/24
+\end{itemize}
+
+Although both VPNs transported identical customer prefixes, MPLS VPN separation was successfully achieved using:
+\begin{itemize}
+    \item distinct VRFs;
+    \item independent routing tables;
+    \item different Route Distinguishers (RDs);
+    \item MP-BGP VPNv4 route separation.
+\end{itemize}
+
+The following output confirmed the coexistence of overlapping routes inside different VPN instances:
+
+\begin{lstlisting}
+Route Distinguisher: 100:1
+ *>i 192.168.30.0     8.8.8.8
+ *>  192.168.40.0     0.0.0.0
+
+Route Distinguisher: 200:1
+ *>i 192.168.30.0     1.1.1.1
+ *>  192.168.40.0     0.0.0.0
+\end{lstlisting}
+
+This demonstrated that identical IPv4 prefixes could coexist inside the MPLS backbone while remaining logically separated through VPNv4 routing.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.93\textwidth]{../PartC_MultiVRF.png}
+\caption{Multiple VPNv4 routing tables with overlapping customer prefixes}
+\end{figure}
+
+% =========================================================
+\subsubsection{Multiple VRF Operation on a Shared PE Router}
+
+One of the most important aspects of this experiment was the simultaneous operation of multiple VRFs on the same Provider Edge router.
+
+R7-PE simultaneously served:
+\begin{itemize}
+    \item \texttt{CLIENT\_1};
+    \item \texttt{CLIENT\_2}.
+\end{itemize}
+
+This demonstrated how MPLS Layer 3 VPN services allow a single provider router to support multiple independent customers while maintaining traffic separation.
+
+The VRF routing tables confirmed that customer routes were correctly separated and associated with their respective VPN instances.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../PartC_CLIENT2_VRF.png}
+\caption{VRF routing table associated with CLIENT\_2}
+\end{figure}
+
+% =========================================================
+\subsubsection{VPN Connectivity Validation}
+
+Connectivity tests confirmed successful MPLS VPN operation between the second customer sites.
+
+The following test was successfully performed:
+
+\begin{lstlisting}
+PC1# ping 192.168.40.2
+!!!!!
+\end{lstlisting}
+
+This confirmed:
+\begin{itemize}
+    \item successful MPLS VPN forwarding;
+    \item MP-BGP route exchange;
+    \item VRF-based traffic separation;
+    \item simultaneous operation of multiple customer VPNs.
+\end{itemize}
+
+% =========================================================
+\subsubsection{Observed Limitation During Overlapping Addressing Tests}
+
+During the overlapping addressing experiments, an additional behavior was observed due to the use of router-based hosts inside the GNS3 environment.
+
+Because identical IPv4 addresses were reused in multiple customer segments connected through the same virtual Ethernet environment, some ICMP traffic was locally resolved through ARP without traversing the MPLS VPN infrastructure.
+
+As a result, certain connectivity tests produced responses directly at Layer 2 instead of being transported through the MPLS backbone.
+
+This behavior occurred because:
+\begin{itemize}
+    \item routers were being used as simulated PCs;
+    \item identical IPv4 addresses existed simultaneously in connected Ethernet domains;
+    \item local ARP resolution occurred before MPLS forwarding.
+\end{itemize}
+
+Despite this limitation, the MPLS VPN control plane operated correctly, as demonstrated by:
+\begin{itemize}
+    \item VPNv4 routing tables;
+    \item distinct Route Distinguishers;
+    \item successful MP-BGP route exchange;
+    \item independent VRF routing tables.
+\end{itemize}
+
+Therefore, the experiment still successfully demonstrated MPLS Layer 3 VPN isolation and overlapping address support.
+
+% =========================================================
+\section{MPLS Traffic Engineering (MPLS-TE)}
+
+After validating the operation of the MPLS backbone, VPN services, and MP-BGP route exchange, MPLS Traffic Engineering (MPLS-TE) was implemented to demonstrate explicit traffic steering across the provider network.
+
+The objective of this experiment was to:
+\begin{itemize}
+    \item create MPLS-TE tunnels between Provider Edge routers;
+    \item force traffic through explicit paths different from the default IGP shortest path;
+    \item demonstrate RSVP signalling and TE tunnel establishment;
+    \item validate unidirectional MPLS-TE forwarding paths.
+\end{itemize}
+
+% =========================================================
+\subsection{MPLS-TE Configuration}
+
+MPLS Traffic Engineering was enabled on all provider routers participating in the MPLS core.
+
+The following features were configured:
+\begin{itemize}
+    \item RSVP signalling;
+    \item MPLS-TE on core interfaces;
+    \item TE router identifiers using loopback interfaces;
+    \item explicit MPLS paths;
+    \item MPLS-TE tunnel interfaces.
+\end{itemize}
+
+The OSPF process was extended with TE support:
+
+\begin{lstlisting}
+router ospf 1
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng area 0
+\end{lstlisting}
+
+Traffic Engineering was then activated on all MPLS backbone interfaces:
+
+\begin{lstlisting}
+interface FastEthernet0/0
+ ip rsvp bandwidth 100000
+ mpls traffic-eng tunnels
+\end{lstlisting}
+
+% =========================================================
+\subsection{Explicit Traffic Engineering Paths}
+
+Two unidirectional MPLS-TE tunnels were configured between the PE routers:
+\begin{itemize}
+    \item R1-PE $\rightarrow$ R8-PE
+    \item R8-PE $\rightarrow$ R1-PE
+\end{itemize}
+
+Each tunnel followed an explicitly configured path diverging from the default IGP SPF calculation.
+
+The outbound tunnel from R1-PE to R8-PE was configured to follow:
+
+\[
+R1 \rightarrow R2 \rightarrow R3 \rightarrow R4 \rightarrow R8
+\]
+
+The return tunnel from R8-PE to R1-PE followed:
+
+\[
+R8 \rightarrow R5 \rightarrow R7 \rightarrow R6 \rightarrow R1
+\]
+
+Explicit MPLS-TE paths were defined using:
+
+\begin{lstlisting}
+ip explicit-path name R1_TO_R8 enable
+ next-address 2.2.2.2
+ next-address 3.3.3.3
+ next-address 4.4.4.4
+ next-address 8.8.8.8
+\end{lstlisting}
+
+The tunnel interfaces were then configured using MPLS Traffic Engineering mode:
+
+\begin{lstlisting}
+interface Tunnel0
+ ip unnumbered Loopback0
+ tunnel mode mpls traffic-eng
+ tunnel destination 8.8.8.8
+ tunnel mpls traffic-eng path-option 1 explicit name R1_TO_R8
+ tunnel mpls traffic-eng autoroute announce
+\end{lstlisting}
+
+% =========================================================
+\subsection{Tunnel Establishment Validation}
+
+The following command confirmed successful MPLS-TE tunnel establishment:
+
+\begin{lstlisting}
+show mpls traffic-eng tunnels
+\end{lstlisting}
+
+The output showed:
+\begin{itemize}
+    \item operational MPLS-TE tunnels;
+    \item active explicit paths;
+    \item RSVP signalling information;
+    \item MPLS label allocation;
+    \item successful LSP establishment.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../PartD_TE_Tunnels.png}
+\caption{Operational MPLS-TE tunnel with explicit routing path}
+\end{figure}
+
+The explicit path information confirmed that the TE tunnel was traversing the manually selected routers instead of relying solely on the default OSPF shortest-path calculation.
+
+% =========================================================
+\subsection{Traffic Steering Through MPLS-TE Tunnels}
+
+Traffic forwarding was then redirected through the MPLS-TE tunnel using the \texttt{autoroute announce} feature.
+
+The routing table confirmed that traffic destined to R8-PE was now being forwarded through the TE tunnel interface:
+
+\begin{lstlisting}
+Routing entry for 8.8.8.8/32
+ Known via "ospf 1"
+ via Tunnel0
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{../PartD_TE_Routing.png}
+\caption{Routing table showing forwarding through the MPLS-TE tunnel}
+\end{figure}
+
+This demonstrated successful MPLS-TE traffic steering.
+
+% =========================================================
+\subsection{Traffic Engineering Path Verification}
+
+Traceroute tests were performed to validate the operational TE forwarding path.
+
+The following traceroute confirmed that traffic from R1-PE to R8-PE was traversing the explicitly configured MPLS-TE path:
+
+\begin{lstlisting}
+trace 8.8.8.8
+\end{lstlisting}
+
+The traceroute output confirmed traversal through:
+\[
+R1 \rightarrow R2 \rightarrow R3 \rightarrow R4 \rightarrow R8
+\]
+
+instead of using the default shortest OSPF route.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{../PartD_TE_Traceroute.png}
+\caption{Traceroute demonstrating MPLS-TE explicit path forwarding}
+\end{figure}
+
+% =========================================================
+\subsection{RSVP Signalling Validation}
+
+RSVP neighbor relationships were also validated.
+
+The following command confirmed RSVP signalling adjacency establishment between MPLS core routers:
+
+\begin{lstlisting}
+show ip rsvp neighbor
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{../PartD_RSVP_Neighbors.png}
+\caption{RSVP signaling neighbors inside the MPLS backbone}
+\end{figure}
+
+This demonstrated that RSVP signalling was operational and capable of supporting MPLS Traffic Engineering LSP establishment.
+
+% =========================================================
+\subsection{Wireshark MPLS-TE Analysis}
+
+Packet captures were collected using Wireshark in order to analyze MPLS-TE forwarding behavior inside the provider backbone.
+
+Traffic captures performed between routers R2 and R3 confirmed that outbound traffic from R1-PE to R8-PE traversed the explicitly engineered TE path.
+
+The captured packets showed:
+\begin{itemize}
+    \item MPLS label encapsulation;
+    \item ICMP payload transport;
+    \item MPLS forwarding inside the TE tunnel.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../Ping_OUT.png}
+\caption{Outbound MPLS-TE traffic captured between R2 and R3}
+\end{figure}
+
+A second capture was performed between routers R6 and R1 to analyze the return traffic path.
+
+This capture demonstrated that the return traffic followed a different TE tunnel path, validating the operation of unidirectional MPLS-TE tunnels.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../ping_IN.png}
+\caption{Inbound MPLS-TE traffic captured between R6 and R1}
+\end{figure}
+
+The packet captures confirmed:
+\begin{itemize}
+    \item successful MPLS label switching;
+    \item explicit traffic engineering operation;
+    \item independent unidirectional TE tunnels;
+    \item successful MPLS encapsulation throughout the provider backbone.
+\end{itemize}
+
+% =========================================================
+\subsection{Constraint-Based Shortest Path First (CSPF)}
+
+An additional MPLS-TE tunnel was configured using dynamic path computation based on Constraint-Based Shortest Path First (CSPF).
+
+Unlike the previous explicitly configured MPLS-TE tunnels, this tunnel dynamically computed its forwarding path using TE topology information distributed through OSPF-TE and RSVP signaling.
+
+The tunnel was configured using a dynamic path option:
+
+\begin{lstlisting}
+interface Tunnel1
+ tunnel mode mpls traffic-eng
+ tunnel destination 8.8.8.8
+ tunnel mpls traffic-eng path-option 1 dynamic
+\end{lstlisting}
+
+The resulting tunnel output confirmed dynamic CSPF computation through the appearance of the \texttt{Shortest Unconstrained Path} information.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{../PartD_CSPF.png}
+\caption{Dynamic MPLS-TE tunnel using CSPF path computation}
+\end{figure}
+
+Traceroute validation confirmed that traffic was successfully transported through the dynamically computed MPLS-TE tunnel while preserving MPLS label switching.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{../PartD_CSPF_Trace.png}
+\caption{Traceroute through the dynamically computed CSPF MPLS-TE tunnel}
+\end{figure}
+
+This experiment demonstrated the operation of CSPF-based MPLS Traffic Engineering using dynamic TE path computation.
+
+% =========================================================
+\subsection{Conclusion}
+
+The MPLS Traffic Engineering implementation successfully demonstrated explicit traffic steering over the MPLS provider backbone.
+
+The experiment validated:
+\begin{itemize}
+    \item RSVP-based MPLS-TE signaling;
+    \item explicit path selection;
+    \item MPLS tunnel establishment;
+    \item traffic steering through TE tunnels;
+    \item MPLS forwarding using engineered paths;
+    \item bidirectional traffic transport using independent unidirectional TE tunnels.
+\end{itemize}
+
+Together with the previously implemented MPLS VPN infrastructure, this final stage completed a fully operational MPLS provider network supporting:
+\begin{itemize}
+    \item MPLS forwarding;
+    \item MPLS VPN services;
+    \item MP-BGP VPNv4 route exchange;
+    \item VRF-based customer isolation;
+    \item MPLS failover and reconvergence;
+    \item MPLS Traffic Engineering.
+\end{itemize}
 
 
 \newpage

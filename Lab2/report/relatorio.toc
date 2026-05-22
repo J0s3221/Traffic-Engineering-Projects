@@ -1,30 +1,63 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
-\contentsline {section}{\numberline {2}Part A — OSPF Network Configuration}{3}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Network Topology}{3}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Broadcast Domains}{3}{subsubsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.2}IPv4 Addressing Plan}{4}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Router Configuration}{4}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}OSPF Configuration}{5}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Routing Table Analysis}{5}{subsection.2.5}%
-\contentsline {subsection}{\numberline {2.6}OSPF Cost Manipulation}{5}{subsection.2.6}%
-\contentsline {subsection}{\numberline {2.7}Experimental Results}{6}{subsection.2.7}%
-\contentsline {subsubsection}{\numberline {2.7.1}Interface Verification}{6}{subsubsection.2.7.1}%
-\contentsline {subsubsection}{\numberline {2.7.2}OSPF Neighbor Adjacency}{6}{subsubsection.2.7.2}%
-\contentsline {subsubsection}{\numberline {2.7.3}Routing Table Analysis}{7}{subsubsection.2.7.3}%
-\contentsline {subsubsection}{\numberline {2.7.4}OSPF Cost Manipulation}{7}{subsubsection.2.7.4}%
-\contentsline {subsubsection}{\numberline {2.7.5}Connectivity Verification}{7}{subsubsection.2.7.5}%
-\contentsline {subsubsection}{\numberline {2.7.6}Link Failure and OSPF Convergence}{8}{subsubsection.2.7.6}%
-\contentsline {section}{\numberline {3}Part B — MPLS Configuration and Analysis}{9}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Introduction}{9}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}MPLS Configuration}{9}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}LDP Neighbor Verification}{10}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}MPLS Interface Verification}{10}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}MPLS Forwarding Table Analysis}{10}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Wireshark Analysis and PHP Demonstration}{11}{subsection.3.6}%
-\contentsline {subsubsection}{\numberline {3.6.1}MPLS Labels in the Core Network}{11}{subsubsection.3.6.1}%
-\contentsline {subsubsection}{\numberline {3.6.2}Penultimate Hop Popping (PHP)}{11}{subsubsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.7}Connectivity Verification}{12}{subsection.3.7}%
-\contentsline {subsection}{\numberline {3.8}MPLS Failure Recovery and Convergence}{12}{subsection.3.8}%
-\contentsline {subsection}{\numberline {3.9}Conclusion}{13}{subsection.3.9}%
-\contentsline {section}{\numberline {4}Conclusion}{14}{section.4}%
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {section}{\numberline {2}Part A — OSPF Network Configuration}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Network Topology}{4}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Broadcast Domains}{4}{subsubsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.2}IPv4 Addressing Plan}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Router Configuration}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}OSPF Configuration}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Routing Table Analysis}{6}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}OSPF Cost Manipulation}{6}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Experimental Results}{7}{subsection.2.7}%
+\contentsline {subsubsection}{\numberline {2.7.1}Interface Verification}{7}{subsubsection.2.7.1}%
+\contentsline {subsubsection}{\numberline {2.7.2}OSPF Neighbor Adjacency}{7}{subsubsection.2.7.2}%
+\contentsline {subsubsection}{\numberline {2.7.3}Routing Table Analysis}{8}{subsubsection.2.7.3}%
+\contentsline {subsubsection}{\numberline {2.7.4}OSPF Cost Manipulation}{8}{subsubsection.2.7.4}%
+\contentsline {subsubsection}{\numberline {2.7.5}Connectivity Verification}{8}{subsubsection.2.7.5}%
+\contentsline {subsubsection}{\numberline {2.7.6}Link Failure and OSPF Convergence}{9}{subsubsection.2.7.6}%
+\contentsline {section}{\numberline {3}Part B — MPLS Configuration and Analysis}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Introduction}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}MPLS Configuration}{10}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}LDP Neighbor Verification}{11}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}MPLS Interface Verification}{11}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}MPLS Forwarding Table Analysis}{11}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Wireshark Analysis and PHP Demonstration}{12}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}MPLS Labels in the Core Network}{12}{subsubsection.3.6.1}%
+\contentsline {subsubsection}{\numberline {3.6.2}Penultimate Hop Popping (PHP)}{12}{subsubsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.7}Connectivity Verification}{13}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}MPLS Failure Recovery and Convergence}{13}{subsection.3.8}%
+\contentsline {subsection}{\numberline {3.9}Conclusion}{14}{subsection.3.9}%
+\contentsline {section}{\numberline {4}Part C --- MPLS VPN Core Network}{15}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Introduction}{15}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Provider Network Topology}{15}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}IPv4 Addressing Plan}{16}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}OSPF Configuration}{16}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}MPLS and LDP Configuration}{17}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}MPLS Forwarding Validation}{17}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}MPLS Traceroute Analysis}{18}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Wireshark MPLS Analysis}{18}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}MPLS Failure Recovery and Redundancy}{19}{subsection.4.9}%
+\contentsline {subsection}{\numberline {4.10}MPLS Layer 3 VPN Deployment}{20}{subsection.4.10}%
+\contentsline {subsubsection}{\numberline {4.10.1}VRF Configuration}{20}{subsubsection.4.10.1}%
+\contentsline {subsubsection}{\numberline {4.10.2}MP-BGP VPNv4 Configuration}{21}{subsubsection.4.10.2}%
+\contentsline {subsubsection}{\numberline {4.10.3}VPNv4 Route Exchange}{21}{subsubsection.4.10.3}%
+\contentsline {subsubsection}{\numberline {4.10.4}VRF Routing Table Verification}{22}{subsubsection.4.10.4}%
+\contentsline {subsubsection}{\numberline {4.10.5}End-to-End VPN Connectivity}{23}{subsubsection.4.10.5}%
+\contentsline {subsubsection}{\numberline {4.10.6}VPN Traceroute Analysis}{23}{subsubsection.4.10.6}%
+\contentsline {subsubsection}{\numberline {4.10.7}Wireshark MPLS VPN Analysis}{24}{subsubsection.4.10.7}%
+\contentsline {subsection}{\numberline {4.11}Multiple VPN Instances and Overlapping Addressing}{25}{subsection.4.11}%
+\contentsline {subsubsection}{\numberline {4.11.1}Overlapping VPN Address Spaces}{25}{subsubsection.4.11.1}%
+\contentsline {subsubsection}{\numberline {4.11.2}Multiple VRF Operation on a Shared PE Router}{26}{subsubsection.4.11.2}%
+\contentsline {subsubsection}{\numberline {4.11.3}VPN Connectivity Validation}{27}{subsubsection.4.11.3}%
+\contentsline {subsubsection}{\numberline {4.11.4}Observed Limitation During Overlapping Addressing Tests}{27}{subsubsection.4.11.4}%
+\contentsline {section}{\numberline {5}MPLS Traffic Engineering (MPLS-TE)}{28}{section.5}%
+\contentsline {subsection}{\numberline {5.1}MPLS-TE Configuration}{28}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Explicit Traffic Engineering Paths}{29}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Tunnel Establishment Validation}{29}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Traffic Steering Through MPLS-TE Tunnels}{32}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Traffic Engineering Path Verification}{32}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}RSVP Signalling Validation}{33}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Wireshark MPLS-TE Analysis}{33}{subsection.5.7}%
+\contentsline {subsection}{\numberline {5.8}Constraint-Based Shortest Path First (CSPF)}{34}{subsection.5.8}%
+\contentsline {subsection}{\numberline {5.9}Conclusion}{36}{subsection.5.9}%
+\contentsline {section}{\numberline {6}Conclusion}{37}{section.6}%

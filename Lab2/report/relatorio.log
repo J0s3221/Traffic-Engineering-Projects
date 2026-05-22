@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.31)  18 MAY 2026 17:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.31)  22 MAY 2026 16:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -552,7 +552,7 @@ Package hyperref Info: Link coloring ON on input line 86.
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 86.
-<Images/IST_A.png, id=122, 709.6914pt x 394.1124pt>
+<Images/IST_A.png, id=255, 709.6914pt x 394.1124pt>
 File: Images/IST_A.png Graphic file (type png)
 <use Images/IST_A.png>
 Package pdftex.def Info: Images/IST_A.png  used on input line 96.
@@ -568,64 +568,167 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 124.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (./relatorio.toc [0
 
-{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./Images/IST_A.png>])
+{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./Images/IST_A.png>] [1])
 \tf@toc=\write4
 \openout4 = `relatorio.toc'.
 
- [1] [2{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-<../Topology-ETraf.PNG, id=178, 488.57532pt x 176.91093pt>
+ [2] [3{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+<../Topology-ETraf.PNG, id=348, 488.57532pt x 176.91093pt>
 File: ../Topology-ETraf.PNG Graphic file (type png)
 <use ../Topology-ETraf.PNG>
 Package pdftex.def Info: ../Topology-ETraf.PNG  used on input line 182.
 (pdftex.def)             Requested size: 411.14528pt x 148.8768pt.
- [3 <../Topology-ETraf.PNG>] [4] [5]
-Overfull \hbox (2.75229pt too wide) in paragraph at lines 400--402
+ [4 <../Topology-ETraf.PNG>] [5] [6]
+Overfull \hbox (2.75229pt too wide) in paragraph at lines 397--399
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (38.00223pt too wide) in paragraph at lines 402--403
+Overfull \hbox (38.00223pt too wide) in paragraph at lines 399--400
 [][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (38.00223pt too wide) in paragraph at lines 403--404
+Overfull \hbox (38.00223pt too wide) in paragraph at lines 400--401
 [][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[6] [7] [8] [9] [10]
-<../MPLS_Label_Core.png, id=352, 1320.935pt x 579.16376pt>
+[7] [8] [9] [10] [11]
+<../MPLS_Label_Core.png, id=521, 1320.935pt x 579.16376pt>
 File: ../MPLS_Label_Core.png Graphic file (type png)
 <use ../MPLS_Label_Core.png>
-Package pdftex.def Info: ../MPLS_Label_Core.png  used on input line 707.
+Package pdftex.def Info: ../MPLS_Label_Core.png  used on input line 704.
 (pdftex.def)             Requested size: 435.32422pt x 190.86835pt.
- [11 <../MPLS_Label_Core.png>]
-<../PHP_No_Label.png, id=366, 1340.00626pt x 558.085pt>
+ [12 <../MPLS_Label_Core.png>]
+<../PHP_No_Label.png, id=536, 1340.00626pt x 558.085pt>
 File: ../PHP_No_Label.png Graphic file (type png)
 <use ../PHP_No_Label.png>
-Package pdftex.def Info: ../PHP_No_Label.png  used on input line 724.
+Package pdftex.def Info: ../PHP_No_Label.png  used on input line 721.
 (pdftex.def)             Requested size: 435.32422pt x 181.29883pt.
- [12 <../PHP_No_Label.png>] [13] [14] (./relatorio.aux)
+ [13 <../PHP_No_Label.png>] [14]
+<../Topology_PartC.png, id=573, 1097.09875pt x 580.1675pt>
+File: ../Topology_PartC.png Graphic file (type png)
+<use ../Topology_PartC.png>
+Package pdftex.def Info: ../Topology_PartC.png  used on input line 874.
+(pdftex.def)             Requested size: 459.51054pt x 242.99588pt.
+ [15] [16 <../Topology_PartC.png>] [17]
+<../PartC_MPLS_Core.png, id=615, 1333.98375pt x 248.93pt>
+File: ../PartC_MPLS_Core.png Graphic file (type png)
+<use ../PartC_MPLS_Core.png>
+Package pdftex.def Info: ../PartC_MPLS_Core.png  used on input line 1046.
+(pdftex.def)             Requested size: 435.32422pt x 81.23174pt.
+ [18] [19 <../PartC_MPLS_Core.png>] [20]
+<../PartC_BGP_Summary.png, id=671, 793.96625pt x 251.94125pt>
+File: ../PartC_BGP_Summary.png Graphic file (type png)
+<use ../PartC_BGP_Summary.png>
+Package pdftex.def Info: ../PartC_BGP_Summary.png  used on input line 1199.
+(pdftex.def)             Requested size: 445.00023pt x 141.20915pt.
+LaTeX Font Info:    Trying to load font information for OML+cmr on input line 1213.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 2024/11/19 v2.5n Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1213.
+ [21 <../PartC_BGP_Summary.png>]
+<../PartC_VPNv4_Routes.png, id=696, 722.7pt x 216.81pt>
+File: ../PartC_VPNv4_Routes.png Graphic file (type png)
+<use ../PartC_VPNv4_Routes.png>
+Package pdftex.def Info: ../PartC_VPNv4_Routes.png  used on input line 1226.
+(pdftex.def)             Requested size: 445.00023pt x 133.50111pt.
+<../PartC_VRF_Routing.png, id=697, 709.65125pt x 346.29375pt>
+File: ../PartC_VRF_Routing.png Graphic file (type png)
+<use ../PartC_VRF_Routing.png>
+Package pdftex.def Info: ../PartC_VRF_Routing.png  used on input line 1245.
+(pdftex.def)             Requested size: 445.00023pt x 217.15697pt.
+ [22 <../PartC_VPNv4_Routes.png>]
+<../PartC_VPN_Traceroute.png, id=709, 582.175pt x 145.54375pt>
+File: ../PartC_VPN_Traceroute.png Graphic file (type png)
+<use ../PartC_VPN_Traceroute.png>
+Package pdftex.def Info: ../PartC_VPN_Traceroute.png  used on input line 1287.
+(pdftex.def)             Requested size: 445.00023pt x 111.25175pt.
+ [23 <../PartC_VRF_Routing.png>]
+<../PartC_MPLS_VPN.png, id=718, 1328.965pt x 336.25626pt>
+File: ../PartC_MPLS_VPN.png Graphic file (type png)
+<use ../PartC_MPLS_VPN.png>
+Package pdftex.def Info: ../PartC_MPLS_VPN.png  used on input line 1319.
+(pdftex.def)             Requested size: 459.51054pt x 116.26508pt.
+ [24 <../PartC_VPN_Traceroute.png> <../PartC_MPLS_VPN.png>] [25]
+<../PartC_MultiVRF.png, id=744, 715.67375pt x 276.03125pt>
+File: ../PartC_MultiVRF.png Graphic file (type png)
+<use ../PartC_MultiVRF.png>
+Package pdftex.def Info: ../PartC_MultiVRF.png  used on input line 1388.
+(pdftex.def)             Requested size: 449.83453pt x 173.50046pt.
+<../PartC_CLIENT2_VRF.png, id=745, 707.64375pt x 347.2975pt>
+File: ../PartC_CLIENT2_VRF.png Graphic file (type png)
+<use ../PartC_CLIENT2_VRF.png>
+Package pdftex.def Info: ../PartC_CLIENT2_VRF.png  used on input line 1409.
+(pdftex.def)             Requested size: 445.00023pt x 218.40112pt.
+ [26 <../PartC_MultiVRF.png>] [27 <../PartC_CLIENT2_VRF.png>] [28] [29]
+<../PartD_TE_Tunnels.png, id=801, 690.58pt x 885.3075pt>
+File: ../PartD_TE_Tunnels.png Graphic file (type png)
+<use ../PartD_TE_Tunnels.png>
+Package pdftex.def Info: ../PartD_TE_Tunnels.png  used on input line 1566.
+(pdftex.def)             Requested size: 445.00023pt x 570.48537pt.
+ [30] [31 <../PartD_TE_Tunnels.png>]
+<../PartD_TE_Routing.png, id=813, 555.07375pt x 126.4725pt>
+File: ../PartD_TE_Routing.png Graphic file (type png)
+<use ../PartD_TE_Routing.png>
+Package pdftex.def Info: ../PartD_TE_Routing.png  used on input line 1587.
+(pdftex.def)             Requested size: 396.63496pt x 90.37311pt.
+<../PartD_TE_Traceroute.png, id=814, 546.04pt x 147.55125pt>
+File: ../PartD_TE_Traceroute.png Graphic file (type png)
+<use ../PartD_TE_Traceroute.png>
+Package pdftex.def Info: ../PartD_TE_Traceroute.png  used on input line 1613.
+(pdftex.def)             Requested size: 425.6556pt x 115.02194pt.
+ [32 <../PartD_TE_Routing.png> <../PartD_TE_Traceroute.png>]
+<../PartD_RSVP_Neighbors.png, id=829, 529.98pt x 129.48375pt>
+File: ../PartD_RSVP_Neighbors.png Graphic file (type png)
+<use ../PartD_RSVP_Neighbors.png>
+Package pdftex.def Info: ../PartD_RSVP_Neighbors.png  used on input line 1630.
+(pdftex.def)             Requested size: 266.03474pt x 64.99657pt.
+<../Ping_OUT.png, id=830, 1368.11125pt x 341.275pt>
+File: ../Ping_OUT.png Graphic file (type png)
+<use ../Ping_OUT.png>
+Package pdftex.def Info: ../Ping_OUT.png  used on input line 1652.
+(pdftex.def)             Requested size: 445.00023pt x 111.00157pt.
+<../ping_IN.png, id=831, 1181.41376pt x 320.19624pt>
+File: ../ping_IN.png Graphic file (type png)
+<use ../ping_IN.png>
+Package pdftex.def Info: ../ping_IN.png  used on input line 1662.
+(pdftex.def)             Requested size: 445.00023pt x 120.60583pt.
+ [33 <../PartD_RSVP_Neighbors.png> <../Ping_OUT.png>]
+<../PartD_CSPF.png, id=842, 692.5875pt x 761.84625pt>
+File: ../PartD_CSPF.png Graphic file (type png)
+<use ../PartD_CSPF.png>
+Package pdftex.def Info: ../PartD_CSPF.png  used on input line 1694.
+(pdftex.def)             Requested size: 445.00023pt x 489.50966pt.
+ [34 <../ping_IN.png>]
+<../PartD_CSPF_Trace.png, id=854, 548.0475pt x 143.53625pt>
+File: ../PartD_CSPF_Trace.png Graphic file (type png)
+<use ../PartD_CSPF_Trace.png>
+Package pdftex.def Info: ../PartD_CSPF_Trace.png  used on input line 1702.
+(pdftex.def)             Requested size: 425.6556pt x 111.48254pt.
+ [35 <../PartD_CSPF.png>] [36 <../PartD_CSPF_Trace.png>] [37] (./relatorio.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `relatorio.out' has not changed.
-(rerunfilecheck)             Checksum: 3F5F943176BF565937CBF2DCA16B20EB;5311.
+(rerunfilecheck)             Checksum: E788187D8EB8101A1F32877F0C7A7099;12333.
  ) 
 Here is how much of TeX's memory you used:
- 20959 strings out of 467525
- 398552 string characters out of 5418982
+ 21356 strings out of 467525
+ 406192 string characters out of 5418982
  888581 words of memory out of 5000000
- 49387 multiletter control sequences out of 15000+600000
+ 49558 multiletter control sequences out of 15000+600000
  638381 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 86i,13n,117p,437b,2486s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 86i,13n,117p,533b,2486s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on relatorio.pdf (15 pages, 419854 bytes).
+Output written on relatorio.pdf (38 pages, 1337716 bytes).
 PDF statistics:
- 493 PDF objects out of 1000 (max. 8388607)
- 443 compressed objects within 5 object streams
- 215 named destinations out of 1000 (max. 500000)
- 263 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1008 PDF objects out of 1200 (max. 8388607)
+ 897 compressed objects within 9 object streams
+ 438 named destinations out of 1000 (max. 500000)
+ 612 words of extra memory for PDF output out of 10000 (max. 10000000)
 
