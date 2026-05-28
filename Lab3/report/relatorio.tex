@@ -9,6 +9,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
+\usepackage{media9}
+
+
 \usepackage{booktabs}
 \usepackage{listings}
 
@@ -492,5 +495,147 @@ Figure~\ref{fig:traceroute43} clearly shows the packet traversal through routers
 
 This exercise demonstrated how Linux namespaces, virtual Ethernet interfaces, Linux bridges, and static routing can be combined to emulate realistic multi-network topologies entirely in software. The resulting topology successfully provided both Layer 2 switching and Layer 3 routing functionality between multiple isolated virtual networks.
 
+\newpage
+
+\subsection{Exercise 4.B -- Docker, Terraform and HAProxy Load Balancing}
+
+This exercise focused on deploying a simple virtualized web infrastructure using Docker containers orchestrated with Terraform. A load balancer based on HAProxy was configured to distribute HTTP requests between multiple backend web servers using a round-robin policy. Additionally, failover behaviour was demonstrated by intentionally shutting down one backend container while maintaining service availability.
+
+\subsubsection{Terraform Infrastructure Deployment}
+
+A Terraform configuration file (\texttt{main.tf}) was created to automate the deployment of the entire infrastructure. The configuration defined:
+
+\begin{itemize}
+    \item A Docker virtual network;
+    \item Two NGINX web server containers;
+    \item One HAProxy load balancer container;
+    \item Volume mappings for custom web pages and HAProxy configuration.
+\end{itemize}
+
+The Terraform execution plan identified all resources to be created automatically.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{Images/terraform_apply.png}
+\caption{Terraform deployment execution and resource provisioning}
+\label{fig:terraformapply}
+\end{figure}
+
+The successful execution confirms that the infrastructure was provisioned automatically using Infrastructure as Code (IaC) principles.
+
+\subsubsection{Docker Container Deployment}
+
+After deployment, the active Docker containers were inspected using the \texttt{docker ps} command.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{Images/docker_ps.png}
+\caption{Running Docker containers after Terraform deployment}
+\label{fig:dockerps}
+\end{figure}
+
+The output shows three operational containers:
+
+\begin{itemize}
+    \item \texttt{web1} -- first NGINX web server;
+    \item \texttt{web2} -- second NGINX web server;
+    \item \texttt{haproxy} -- HAProxy load balancer exposing port 8080.
+\end{itemize}
+
+\subsubsection{HAProxy Load Balancing}
+
+HAProxy was configured using a round-robin balancing policy. Two backend web servers were registered inside the HAProxy backend configuration.
+
+The following HAProxy configuration was used:
+
+\begin{lstlisting}[language=bash]
+backend http_back
+    balance roundrobin
+
+    server web1 web1:80 check
+    server web2 web2:80 check
+\end{lstlisting}
+
+To validate the balancing operation, the browser repeatedly accessed:
+
+\begin{center}
+\texttt{http://localhost:8080}
+\end{center}
+
+The responses alternated between both web servers, proving successful round-robin balancing.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{Images/web1.png}
+\caption{Response received from Web Server 1}
+\label{fig:web1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{Images/web2.png}
+\caption{Response received from Web Server 2}
+\label{fig:web2}
+\end{figure}
+
+The alternating responses demonstrate that HAProxy successfully distributed HTTP requests across both backend servers.
+
+\subsubsection{Failover Demonstration}
+
+To validate fault tolerance and backend health monitoring, the \texttt{web1} container was intentionally stopped.
+
+\begin{lstlisting}[language=bash]
+docker stop web1
+\end{lstlisting}
+
+After the shutdown, Docker container status was inspected again.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{Images/web1_kill.png}
+\caption{Container status after shutting down Web Server 1}
+\label{fig:web1kill}
+\end{figure}
+
+The results show that:
+
+\begin{itemize}
+    \item \texttt{web1} was stopped;
+    \item \texttt{haproxy} remained operational;
+    \item \texttt{web2} continued serving requests.
+\end{itemize}
+
+Subsequent accesses to the HAProxy frontend still returned valid HTTP responses from \texttt{web2}, proving successful failover behaviour and backend health detection.
+
+This demonstrates that HAProxy dynamically removed unavailable backend servers while maintaining uninterrupted service availability.
+
+\subsubsection{Conclusion}
+
+This exercise successfully demonstrated the deployment of a containerized web infrastructure using Terraform and Docker. HAProxy provided load balancing functionality using a round-robin strategy and maintained service continuity during backend failures.
+
+The experiment validated several important cloud-native networking concepts:
+
+\begin{itemize}
+    \item Infrastructure as Code (IaC);
+    \item Containerized service deployment;
+    \item Docker virtual networking;
+    \item Load balancing;
+    \item Health monitoring;
+    \item Backend failover;
+    \item High availability mechanisms.
+\end{itemize}
+
+The obtained results confirmed that Terraform can automate the deployment of scalable virtual infrastructures while HAProxy ensures resilient and balanced service delivery.
+
+\subsubsection{Additional Demonstration Videos}
+
+Additional video demonstrations were recorded during the experiment and are provided as supplementary material attached to the report.
+
+The videos demonstrate:
+\begin{itemize}
+    \item HAProxy round-robin load balancing operation;
+    \item backend failover behaviour after shutting down \texttt{web1};
+    \item service continuity during backend failure scenarios.
+\end{itemize}
 
 \end{document}
