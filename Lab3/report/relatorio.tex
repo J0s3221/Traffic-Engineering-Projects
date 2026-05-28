@@ -104,7 +104,7 @@ anchorcolor = istblue
 
 \HRule\\[0.4cm]
 
-{\large \bf {Lab 2 Report} [\texttt{EN}]}\\[0.2cm]
+{\large \bf {Lab 3 Report} [\texttt{EN}]}\\[0.2cm]
 
 \HRule\\[1.5cm]
 
@@ -147,7 +147,350 @@ Tiago Videira (116069)\\
 
 \newpage
 
+% =========================================================
+\section{Linux Network Namespaces}
 
+\subsection{Exercise 4.1 -- Two-Node Network}
+
+The objective of this first exercise was to understand the operation of Linux network namespaces and virtual Ethernet interfaces by creating a simple two-node topology.
+
+A new namespace named \texttt{examplens} was created using:
+
+\begin{lstlisting}
+ip netns add examplens
+\end{lstlisting}
+
+Network namespaces provide isolated networking environments inside the Linux kernel. Each namespace has its own interfaces, routing table, ARP table, and network stack, behaving similarly to an independent host.
+
+The created namespace was verified using:
+
+\begin{lstlisting}
+ip netns list
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{Images/ip_netns_4.1.png}
+\caption{Verification of the created Linux namespace}
+\end{figure}
+
+To interconnect the default namespace with the newly created namespace, a virtual Ethernet pair (veth pair) was created:
+
+\begin{lstlisting}
+ip link add veth0 type veth peer name veth1
+\end{lstlisting}
+
+A veth pair acts as a virtual cable between two interfaces. Any packet entering one side exits through the other side.
+
+One of the interfaces was then moved into the namespace:
+
+\begin{lstlisting}
+ip link set veth1 netns examplens
+\end{lstlisting}
+
+At this stage:
+\begin{itemize}
+    \item \texttt{veth0} remained in the default namespace;
+    \item \texttt{veth1} became part of the \texttt{examplens} namespace.
+\end{itemize}
+
+IP addresses were assigned to both interfaces:
+
+\begin{lstlisting}
+ip addr add 10.0.0.1/24 dev veth0
+
+ip netns exec examplens \
+ip addr add 10.0.0.2/24 dev veth1
+\end{lstlisting}
+
+The command \texttt{ip netns exec} allows the execution of commands inside a specific namespace.
+
+The loopback interface inside the namespace was also enabled:
+
+\begin{lstlisting}
+ip netns exec examplens ip link set lo up
+\end{lstlisting}
+
+Each namespace has its own independent loopback interface, which is initially administratively down by default.
+
+After configuring the interfaces, the resulting addressing information was verified.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{Images/ip_addr_4.1.png}
+\caption{IP addressing configuration inside the default namespace}
+\end{figure}
+
+The namespace addressing was also validated:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{Images/ip_netns_exec_examplens_ip_addr_4.1.png}
+\caption{IP addressing configuration inside the \texttt{examplens} namespace}
+\end{figure}
+
+Connectivity tests were then performed using ICMP echo requests.
+
+From the default namespace:
+
+\begin{lstlisting}
+ping 10.0.0.2
+\end{lstlisting}
+
+And from inside the namespace:
+
+\begin{lstlisting}
+ip netns exec examplens ping 10.0.0.1
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{Images/pings_4.1.png}
+\caption{Bidirectional connectivity validation between namespaces}
+\end{figure}
+
+The successful bidirectional communication demonstrated:
+\begin{itemize}
+    \item correct namespace creation;
+    \item successful virtual interface configuration;
+    \item proper operation of veth pairs;
+    \item isolated network stack functionality inside Linux namespaces.
+\end{itemize}
+
+This exercise introduced the basic concepts of Linux network virtualization and namespace-based network isolation.
+
+\newpage
+
+% =========================================================
+\subsection{Exercise 4.2 -- Three-Node Network}
+
+The objective of this exercise was to emulate a routed topology using Linux network namespaces and virtual Ethernet interfaces.
+
+Two namespaces were created:
+\begin{itemize}
+    \item \texttt{near}
+    \item \texttt{far}
+\end{itemize}
+
+The resulting topology consisted of three logical nodes:
+
+\[
+Host \leftrightarrow near \leftrightarrow far
+\]
+
+The namespaces were verified using:
+
+\begin{lstlisting}
+ip netns list
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{Images/ip_netns_list_4.2.png}
+\caption{Namespaces created for the routed topology}
+\end{figure}
+
+Two virtual Ethernet pairs were created:
+\begin{itemize}
+    \item one pair connecting the host to the \texttt{near} namespace;
+    \item another pair connecting the \texttt{near} namespace to the \texttt{far} namespace.
+\end{itemize}
+
+The interfaces were distributed among the namespaces using:
+
+\begin{lstlisting}
+ip link set <interface> netns <namespace>
+\end{lstlisting}
+
+IP addresses were assigned as follows:
+\begin{itemize}
+    \item Host side: \texttt{10.0.1.1/24}
+    \item Near namespace (towards host): \texttt{10.0.1.2/24}
+    \item Near namespace (towards far): \texttt{10.0.2.1/24}
+    \item Far namespace: \texttt{10.0.2.2/24}
+\end{itemize}
+
+After assigning addresses, all interfaces and loopback interfaces were activated.
+
+Since the \texttt{near} namespace interconnects two distinct IP networks, it was configured to operate as a virtual router.
+
+IP forwarding was enabled using:
+
+\begin{lstlisting}
+ip netns exec near \
+sysctl -w net.ipv4.ip_forward=1
+\end{lstlisting}
+
+Static routing entries were then configured.
+
+On the host side:
+
+\begin{lstlisting}
+ip route add 10.0.2.0/24 via 10.0.1.2
+\end{lstlisting}
+
+On the \texttt{far} namespace:
+
+\begin{lstlisting}
+ip netns exec far \
+ip route add 10.0.1.0/24 via 10.0.2.1
+\end{lstlisting}
+
+The resulting routing tables were verified.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{Images/ip_route_4.2.png}
+\caption{Routing table of the default namespace}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{Images/ip_netns_exec_far:near_ip_route_4.2.png}
+\caption{Routing tables inside the \texttt{near} and \texttt{far} namespaces}
+\end{figure}
+
+Connectivity tests confirmed successful communication between all nodes.
+
+From the default namespace:
+
+\begin{lstlisting}
+ping 10.0.2.2
+\end{lstlisting}
+
+From the \texttt{far} namespace:
+
+\begin{lstlisting}
+ip netns exec far ping 10.0.1.1
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{Images/pings_4.2.png}
+\caption{Connectivity validation through the Linux virtual router}
+\end{figure}
+
+The observed TTL decrement from 64 to 63 confirmed that packets traversed the \texttt{near} namespace, validating that IP forwarding and routing were functioning correctly.
+
+This exercise demonstrated:
+\begin{itemize}
+    \item Linux namespace interconnection using veth pairs;
+    \item static route configuration;
+    \item IP forwarding operation;
+    \item Linux namespaces functioning as virtual routers.
+\end{itemize}
+
+The experiment showed that Linux namespaces can emulate complete routed topologies while maintaining isolated network stacks for each virtual node.
+
+\newpage
+
+\subsection{Exercise 4.3 — Multi-Network Topology with Linux Namespaces and Bridges}
+
+In this exercise, a complete virtual network topology was implemented using Linux network namespaces, virtual Ethernet interfaces (veth pairs), Linux bridges, and static routing. The objective was to emulate multiple independent LANs interconnected through Linux routers, reproducing the topology presented in the assignment.
+
+The topology consisted of:
+\begin{itemize}
+    \item Two Linux routers: \texttt{r1} and \texttt{r2}
+    \item Three Linux bridges acting as switches: \texttt{sw1}, \texttt{sw2}, and \texttt{sw3}
+    \item Seven hosts distributed across three different LANs:
+    \begin{itemize}
+        \item LAN1: \texttt{h1}, \texttt{h2}
+        \item LAN2: \texttt{h3}, \texttt{h4}
+        \item LAN3: \texttt{h5}, \texttt{h6}, \texttt{h7}
+    \end{itemize}
+\end{itemize}
+
+Each host and router was isolated inside its own network namespace. Connectivity between namespaces was established using veth pairs, while Linux bridges were used to emulate Layer 2 Ethernet switches.
+
+The following IPv4 addressing scheme was adopted:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Network} & \textbf{Address Space} \\ \hline
+LAN1 (SW1) & 10.0.1.0/24 \\ \hline
+R1 -- R2 Backbone & 10.0.2.0/24 \\ \hline
+LAN2 (SW2) & 10.0.3.0/24 \\ \hline
+LAN3 (SW3) & 10.0.4.0/24 \\ \hline
+\end{tabular}
+\caption{IPv4 addressing plan used in Exercise 4.3}
+\end{table}
+
+Figure~\ref{fig:netns43} shows the created network namespaces corresponding to all hosts and routers in the topology.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{Images/ip_netns_list_4.3.png}
+\caption{Network namespaces created for the topology}
+\label{fig:netns43}
+\end{figure}
+
+Linux bridges were then configured to emulate Ethernet switches, interconnecting the different hosts and routers belonging to the same LAN segment.
+
+Figure~\ref{fig:bridgelink43} presents the bridge associations between interfaces and Linux bridges.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{Images/bridge_link_4.3.png}
+\caption{Bridge interface associations in the virtual topology}
+\label{fig:bridgelink43}
+\end{figure}
+
+Additionally, VLAN and bridge membership information was inspected using the \texttt{bridge vlan} command, confirming that all interfaces were correctly associated with their respective bridge domains.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{Images/bridge_vlan_4.3.png}
+\caption{Bridge VLAN and port membership information}
+\label{fig:bridgevlan43}
+\end{figure}
+
+Static routes were configured on both Linux routers in order to provide Layer 3 connectivity between the different LANs.
+
+Figure~\ref{fig:r1routes43} shows the routing table configured on router \texttt{r1}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{Images/ip_netns_R1_4.3.png}
+\caption{Routing table configured on router r1}
+\label{fig:r1routes43}
+\end{figure}
+
+Figure~\ref{fig:r2routes43} shows the routing table configured on router \texttt{r2}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{Images/ip_netns_R2_4.3.png}
+\caption{Routing table configured on router r2}
+\label{fig:r2routes43}
+\end{figure}
+
+After completing the Layer 2 and Layer 3 configuration, end-to-end connectivity tests were performed between hosts located in different LANs.
+
+Figure~\ref{fig:ping43} demonstrates successful communication between host \texttt{h1} in LAN1 and host \texttt{h7} in LAN3.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{Images/ping_4.3.png}
+\caption{Successful end-to-end ICMP communication between LAN1 and LAN3}
+\label{fig:ping43}
+\end{figure}
+
+The obtained TTL value of 62 confirms that packets traversed two intermediate routers before reaching the destination.
+
+To further validate the forwarding path across the virtual network, a traceroute operation was executed from \texttt{h1} towards \texttt{h7}.
+
+Figure~\ref{fig:traceroute43} clearly shows the packet traversal through routers \texttt{r1} and \texttt{r2} before reaching the final destination host.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{Images/traceroute_4.3.png}
+\caption{Traceroute showing packet traversal across the virtual topology}
+\label{fig:traceroute43}
+\end{figure}
+
+This exercise demonstrated how Linux namespaces, virtual Ethernet interfaces, Linux bridges, and static routing can be combined to emulate realistic multi-network topologies entirely in software. The resulting topology successfully provided both Layer 2 switching and Layer 3 routing functionality between multiple isolated virtual networks.
 
 
 \end{document}
