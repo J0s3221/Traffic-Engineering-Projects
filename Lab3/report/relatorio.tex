@@ -1,0 +1,153 @@
+% ----------------------------------------------------------------------
+% Set the document class
+% ----------------------------------------------------------------------
+\documentclass[12pt]{article}
+
+% ----------------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{booktabs}
+\usepackage{listings}
+
+\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{anysize}
+\marginsize{2cm}{2cm}{2cm}{2cm}
+
+\usepackage{appendix}
+\usepackage{cancel}
+
+\usepackage{caption}
+\captionsetup{labelfont={bf}}
+
+\usepackage{cite}
+\usepackage{color}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize IST}
+\fancyhead[R]{\footnotesize ULisboa}
+\fancyfoot[L]{\footnotesize Traffic Engineering}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\footnotesize METI}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{float}
+\usepackage{graphicx}
+
+\usepackage[
+colorlinks = true,
+plainpages = true,
+linkcolor = istblue,
+urlcolor = istblue,
+citecolor = istblue,
+anchorcolor = istblue
+]{hyperref}
+
+\usepackage{indentfirst}
+\usepackage[super]{nth}
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{titlesec}
+
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% Random text (not needed)
+\usepackage{lipsum}
+\usepackage{duckuments}
+
+% ----------------------------------------------------------------------
+% Commands
+% ----------------------------------------------------------------------
+
+\newcommand{\sen}{\operatorname{\sen}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+% ----------------------------------------------------------------------
+% Colors
+% ----------------------------------------------------------------------
+
+\definecolor{istblue}{RGB}{3,171,230}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Cover
+% ----------------------------------------------------------------------
+
+\begin{center}
+
+\begin{figure}
+    \vspace{-1.0cm}
+    \includegraphics[scale = 0.25, left]{Images/IST_A.png}
+\end{figure}
+
+\mbox{}\\[2.0cm]
+
+\textsc{\Huge Traffic Engineering}\\[2.5cm]
+
+\textsc{\LARGE METI}\\[2.0cm]
+
+\HRule\\[0.4cm]
+
+{\large \bf {Lab 2 Report} [\texttt{EN}]}\\[0.2cm]
+
+\HRule\\[1.5cm]
+
+\end{center}
+
+\begin{flushleft}
+\textbf{Authors:}
+\end{flushleft}
+
+\begin{center}
+
+\begin{minipage}{0.5\textwidth}
+\begin{flushleft}
+José Oliveira (103771)\\
+Tiago Videira (116069)\\
+\end{flushleft}
+\end{minipage}%
+\begin{minipage}{0.5\textwidth}
+\begin{flushright}
+\href{mailto:jose.novais.oliveira@tecnico.ulisboa.pt}{\texttt{jose.novais.oliveira@tecnico.ulisboa.pt}}\\
+\href{mailto:tiago.g.videira@tecnico.ulisboa.pt}{\texttt{tiago.g.videira@tecnico.ulisboa.pt}}\\
+\end{flushright}
+\end{minipage}
+
+\end{center}
+
+\begin{flushleft}
+\large $\boxed{\text{\bf Group 5}}$\\[4.0cm]
+\end{flushleft}
+
+\begin{center}
+\large \bf 2025/2026 -- \nth{2} Semester, P4
+\end{center}
+
+\thispagestyle{empty}
+
+\setcounter{page}{0}
+
+\tableofcontents
+
+\newpage
+
+
+
+
+\end{document}
